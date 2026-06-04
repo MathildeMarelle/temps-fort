@@ -1,0 +1,2192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galileo · Dashboard Marketing JPO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet" />
+  <style>
+/* ============================================================
+   GALILEO · styles v2 — Vue Campus étendue
+   ============================================================ */
+:root {
+  --paper: #f4f4f2; --card: #ffffff; --card-2: #f7f7f5; --ink: #1c1c1e; --muted: #86868b;
+  --line: #ededec; --accent: #2f6bff;
+  --c1: #2f6bff; --c2: #15b079; --c3: #f5a623; --c4: #9b6cff; --c5: #ff6a5d;
+  --good: #18a06a; --warn: #df9526; --bad: #ff5b50;
+  --radius: 24px; --radius-sm: 14px; --pad: 26px; --gap: 20px;
+  --shadow-sm: 0 1px 2px rgba(20,22,40,.04), 0 1px 3px rgba(20,22,40,.04);
+  --shadow: 0 1px 2px rgba(20,22,40,.04), 0 10px 30px rgba(20,22,40,.06);
+  --shadow-lg: 0 2px 6px rgba(20,22,40,.05), 0 20px 50px rgba(20,22,40,.09);
+  --sans: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --display: var(--sans);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: var(--sans); color: var(--ink); background: var(--paper);
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  font-size: 14.5px; line-height: 1.45; letter-spacing: -0.006em;
+}
+h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.02em; }
+button { font-family: inherit; cursor: pointer; }
+em { font-style: normal; }
+
+/* App shell */
+.app { display: grid; grid-template-columns: 264px 1fr; min-height: 100vh; }
+.sidebar {
+  background: transparent; display: flex; flex-direction: column;
+  padding: 22px 18px; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+}
+.brand { display: flex; align-items: center; gap: 12px; padding: 6px 10px 26px; }
+.brand-mark {
+  width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center;
+  background: var(--ink); color: #fff; font-size: 15px; box-shadow: var(--shadow-sm);
+}
+.brand-txt { display: flex; flex-direction: column; line-height: 1.15; }
+.brand-txt strong { font-size: 18px; font-weight: 800; letter-spacing: -0.03em; }
+.brand-txt span { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+
+.nav { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+.nav-section-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
+  font-weight: 700; padding: 14px 14px 6px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 12px; padding: 11px 14px; border: 0; border-radius: 13px;
+  background: transparent; color: var(--muted); font-size: 14px; text-align: left; width: 100%;
+  transition: background .18s, color .18s; font-weight: 600; letter-spacing: -0.01em;
+}
+.nav-item:hover { background: rgba(0,0,0,.035); color: var(--ink); }
+.nav-item.active { background: var(--card); color: var(--ink); box-shadow: var(--shadow-sm); }
+.nav-item.active svg { color: var(--accent); }
+.nav-item svg { flex: none; opacity: .9; }
+.nav-sub { padding-left: 16px; }
+.nav-sub .nav-item { font-size: 13px; padding: 9px 14px; border-radius: 10px; }
+
+.side-foot { margin-top: auto; padding-top: 16px; }
+.upload-box { border-radius: 18px; padding: 16px; background: var(--card); box-shadow: var(--shadow-sm); }
+.ub-title { margin: 0 0 5px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; }
+.ub-name { margin: 0 0 12px; font-size: 13px; font-weight: 700; color: var(--ink); word-break: break-word; }
+.ub-error { margin: -7px 0 11px; font-size: 12px; color: var(--bad); font-weight: 600; }
+.ub-btn {
+  width: 100%; padding: 10px; border: 0; border-radius: 12px; background: var(--ink); color: #fff;
+  font-size: 13px; font-weight: 700; transition: transform .12s, opacity .15s; letter-spacing: -0.01em;
+}
+.ub-btn:hover { opacity: .9; }
+.ub-btn:active { transform: scale(.98); }
+.ub-link { display: block; width: 100%; margin-top: 9px; padding: 4px; border: 0; background: none; color: var(--muted); font-size: 12px; font-weight: 600; }
+.ub-link:hover { color: var(--ink); }
+
+/* Main */
+.main { min-width: 0; display: flex; flex-direction: column; }
+.topbar {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 20px;
+  padding: 30px 38px 16px; background: transparent; position: sticky; top: 0; z-index: 5;
+  backdrop-filter: blur(8px);
+}
+.crumb { margin: 0 0 7px; font-size: 12.5px; color: var(--muted); font-weight: 600; }
+.page-title { font-family: var(--display); font-size: 30px; font-weight: 800; letter-spacing: -0.035em; }
+.topbar-right { display: flex; align-items: center; gap: 11px; }
+.period-chip {
+  display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 999px;
+  background: var(--card); font-size: 12.5px; color: var(--muted); font-weight: 600; box-shadow: var(--shadow-sm);
+}
+.pc-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.import-cta {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 17px; border-radius: 999px;
+  background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; user-select: none; border: 0;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 34%, transparent); transition: transform .12s, filter .15s; cursor: pointer;
+}
+.import-cta:hover { filter: brightness(1.05); }
+.import-cta:active { transform: scale(.97); }
+
+.flash {
+  margin: 14px 38px -4px; padding: 12px 17px; border-radius: 14px; font-size: 13px; font-weight: 600;
+  background: color-mix(in srgb, var(--good) 12%, var(--card)); color: var(--good);
+}
+.content { padding: 22px 38px 52px; }
+.view { display: flex; flex-direction: column; gap: var(--gap); }
+
+/* Grids */
+.grid { display: grid; gap: var(--gap); }
+.grid-2 { grid-template-columns: 1fr 1fr; }
+.grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.grid-dash { grid-template-columns: 1.35fr 1fr; }
+.grid-dash .span-insights { grid-column: 1 / -1; }
+.grid-funnelfocus { grid-template-columns: 1.3fr 1fr; }
+.grid-funnelfocus .span-funnel { grid-row: span 2; }
+
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+.kpi-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+.kpi-row-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--gap); }
+
+/* Card */
+.card {
+  background: var(--card); border-radius: var(--radius); padding: var(--pad); min-width: 0;
+  box-shadow: var(--shadow-sm); transition: box-shadow .2s;
+}
+.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 20px; }
+.card-head > div:first-child { min-width: 0; }
+.card-head .legend { flex: none; }
+.card-title { font-family: var(--display); font-size: 18px; font-weight: 800; letter-spacing: -0.028em; }
+.card-sub { margin: 4px 0 0; font-size: 12.5px; color: var(--muted); font-weight: 500; }
+.card-action { color: var(--muted); }
+
+/* KPI */
+.kpi {
+  background: var(--card); border-radius: var(--radius); padding: 22px 24px;
+  display: flex; flex-direction: column; gap: 12px; box-shadow: var(--shadow-sm); transition: transform .18s, box-shadow .18s;
+}
+.kpi:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+.kpi-top { display: flex; align-items: center; justify-content: space-between; }
+.kpi-label { font-size: 12.5px; color: var(--muted); font-weight: 600; }
+.kpi-value { font-size: 36px; font-weight: 800; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; line-height: 1; }
+.kpi-foot { display: flex; align-items: center; gap: 7px; }
+.kpi-sub { font-size: 12px; font-weight: 600; }
+.kpi .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.icon-pastille { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none; }
+.icon-pastille.on-accent { background: var(--accent); color: #fff; }
+.substats { display: flex; gap: 14px; flex-wrap: wrap; }
+.substat { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--muted); }
+.substat-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.substat em { font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* Funnel */
+.funnel { display: flex; flex-direction: column; gap: 16px; }
+.funnel-row { display: flex; flex-direction: column; gap: 7px; }
+.funnel-meta { display: flex; align-items: baseline; justify-content: space-between; }
+.funnel-label { font-size: 13px; font-weight: 700; color: var(--ink); }
+.funnel-val { font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.funnel-track { position: relative; height: 34px; background: var(--card-2); border-radius: 11px; overflow: hidden; }
+.funnel-bar { height: 100%; border-radius: 11px; transition: width .6s cubic-bezier(.2,.7,.3,1); }
+.funnel-conv {
+  position: absolute; right: 11px; top: 50%; transform: translateY(-50%);
+  font-size: 11.5px; font-weight: 700; color: var(--muted); background: var(--card); padding: 3px 9px; border-radius: 8px; box-shadow: var(--shadow-sm);
+}
+
+/* Hero card (taux présence) */
+.hero-card {
+  background: var(--accent); color: #fff; border-radius: var(--radius); padding: var(--pad);
+  display: flex; flex-direction: column; gap: 12px; box-shadow: var(--shadow);
+}
+.hero-head { display: flex; align-items: center; justify-content: space-between; }
+.hero-eyebrow { font-size: 12.5px; font-weight: 700; opacity: .82; }
+.hero-gauge { display: flex; justify-content: center; }
+.hero-note { margin: 0; font-size: 12.5px; opacity: .78; font-weight: 500; line-height: 1.55; }
+
+/* Per-levier */
+.levier-table { border-top: 1px solid var(--line); padding-top: 14px; display: flex; flex-direction: column; gap: 11px; }
+.levier-line { display: grid; grid-template-columns: 1.6fr .8fr .8fr .7fr; align-items: center; gap: 8px; }
+.lt-name { display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 700; }
+.lt-metric { font-size: 11.5px; color: var(--muted); text-align: right; font-weight: 500; }
+.lt-metric em { display: block; font-size: 14px; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+.legend { display: flex; gap: 15px; flex-wrap: wrap; }
+.legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); font-weight: 600; }
+.legend-dot { width: 9px; height: 9px; border-radius: 4px; flex: none; }
+
+/* SVG chart text */
+.bar-val { font-size: 12.5px; font-weight: 800; fill: var(--ink); font-variant-numeric: tabular-nums; font-family: var(--sans); }
+.bar-lab { font-size: 12px; fill: var(--muted); font-family: var(--sans); font-weight: 600; }
+.axis-txt { font-size: 10.5px; fill: var(--muted); font-family: var(--sans); font-weight: 500; }
+.axis-cap { font-size: 11px; fill: var(--muted); font-family: var(--sans); font-weight: 600; }
+
+/* Gauge / Donut */
+.gauge-v { font-size: 30px; font-weight: 800; fill: var(--ink); font-family: var(--sans); font-variant-numeric: tabular-nums; }
+.gauge-l { font-size: 11px; fill: var(--muted); font-family: var(--sans); font-weight: 600; }
+.donut-row { display: flex; align-items: center; gap: 26px; }
+.donut-wrap { flex: none; }
+.donut-legend { display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 0; }
+.dl-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+.dl-name { color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dl-val { font-weight: 800; font-variant-numeric: tabular-nums; }
+
+/* Segbar */
+.segbar { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+.segbar-marks { display: flex; }
+.segbar-mark { font-size: 11px; font-weight: 800; color: var(--muted); text-align: center; padding-bottom: 4px; }
+.segbar-track { display: flex; height: 14px; border-radius: 8px; overflow: hidden; gap: 2px; }
+.segbar-seg { border-radius: 8px; transition: flex .4s; }
+.segbar-legend { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 8px; }
+.segbar-li { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 600; }
+.segbar-li em { font-weight: 800; color: var(--ink); margin-left: 4px; }
+
+/* Insights */
+.insights { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 16px; }
+.insight { border-radius: 18px; padding: 18px; }
+.insight-good { background: color-mix(in srgb, var(--good) 9%, var(--card)); }
+.insight-warn { background: color-mix(in srgb, var(--warn) 11%, var(--card)); }
+.insight-bad { background: color-mix(in srgb, var(--bad) 9%, var(--card)); }
+.insight-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; font-weight: 800; }
+.insight-tag::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.insight-good .insight-tag { color: var(--good); }
+.insight-warn .insight-tag { color: var(--warn); }
+.insight-bad .insight-tag { color: var(--bad); }
+.insight h4 { margin: 9px 0 6px; font-size: 14.5px; font-weight: 800; letter-spacing: -0.02em; }
+.insight p { margin: 0; font-size: 12.8px; color: var(--muted); line-height: 1.55; font-weight: 500; }
+
+/* HBars */
+.hbars { display: flex; flex-direction: column; gap: 11px; }
+.hbar-row { display: grid; grid-template-columns: 132px 1fr auto; align-items: center; gap: 13px; }
+.hbar-label { font-size: 12.5px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.hbar-track { height: 12px; background: var(--card-2); border-radius: 7px; overflow: hidden; }
+.hbar-fill { height: 100%; border-radius: 7px; transition: width .5s cubic-bezier(.2,.7,.3,1); }
+.hbar-val { font-size: 12.5px; font-weight: 800; font-variant-numeric: tabular-nums; min-width: 50px; text-align: right; }
+
+/* Dual metric */
+.dual-list { display: flex; flex-direction: column; gap: 16px; }
+.dual-row { display: grid; grid-template-columns: 1fr; gap: 9px; padding-bottom: 15px; border-bottom: 1px solid var(--line); }
+.dual-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.dual-name { display: flex; align-items: center; font-size: 13px; font-weight: 700; letter-spacing: -0.01em; }
+.dual-bars { display: flex; flex-direction: column; gap: 7px; }
+.dual-line { display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 11px; }
+.dual-k { font-size: 10.5px; font-weight: 800; color: var(--muted); letter-spacing: .03em; }
+.dual-track { height: 10px; background: var(--card-2); border-radius: 6px; overflow: hidden; }
+.dual-fill { height: 100%; border-radius: 6px; transition: width .5s cubic-bezier(.2,.7,.3,1); }
+.dual-v { font-size: 12.5px; font-weight: 800; font-variant-numeric: tabular-nums; min-width: 52px; text-align: right; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 0 -6px; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th {
+  text-align: right; padding: 10px 13px; font-size: 11px; text-transform: uppercase; letter-spacing: .04em;
+  color: var(--muted); font-weight: 700; border-bottom: 1px solid var(--line); cursor: pointer; white-space: nowrap; user-select: none;
+}
+.data-table th.tl, .data-table td.tl { text-align: left; }
+.data-table th.tr, .data-table td.tr { text-align: right; }
+.data-table th:hover { color: var(--ink); }
+.data-table td { padding: 13px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; font-weight: 500; }
+.data-table tbody tr { transition: background .12s; }
+.data-table tbody tr:hover { background: var(--card-2); }
+.data-table tbody tr:last-child td { border-bottom: 0; }
+.data-table td.tl { font-weight: 600; }
+.lev-chip { display: inline-block; padding: 3px 8px; border-radius: 7px; color: #fff; font-size: 10.5px; font-weight: 800; margin-right: 10px; vertical-align: middle; }
+.cell-good { color: var(--good); font-weight: 800; }
+.cell-bad { color: var(--bad); font-weight: 800; }
+.strong { font-weight: 800; }
+.muted { color: var(--muted); }
+.rank-cell { color: var(--muted); font-weight: 800; }
+.presence-pill { display: inline-block; padding: 3px 11px; border-radius: 999px; font-weight: 800; font-size: 12px; color: var(--pc); background: color-mix(in srgb, var(--pc) 14%, transparent); }
+.sort-ar { color: var(--accent); }
+
+.seg { display: inline-flex; background: var(--card-2); border-radius: 12px; padding: 4px; gap: 3px; }
+.seg button { border: 0; background: transparent; padding: 6px 15px; border-radius: 9px; font-size: 12.5px; color: var(--muted); font-weight: 700; transition: all .14s; }
+.seg button.on { background: var(--card); color: var(--ink); box-shadow: var(--shadow-sm); }
+
+/* VS créatifs */
+.vs { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; padding: 6px 0 20px; }
+.vs-col { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 20px; border-radius: 18px; background: color-mix(in srgb, var(--vc) 9%, var(--card-2)); }
+.vs-name { font-size: 13px; font-weight: 800; color: var(--vc); letter-spacing: -0.01em; }
+.vs-big { font-size: 38px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -0.04em; }
+.vs-big small { font-size: 12px; font-weight: 600; color: var(--muted); margin-left: 5px; }
+.vs-mid { font-size: 14px; font-weight: 700; color: var(--muted); }
+.vs-metrics { border-top: 1px solid var(--line); padding-top: 6px; }
+.vsm-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.vsm-row:last-child { border-bottom: 0; }
+.vsm-v { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.vsm-row .vsm-v:first-child { text-align: left; }
+.vsm-row .vsm-v:last-child { text-align: right; }
+.vsm-k { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; padding: 0 14px; font-weight: 700; }
+
+/* Rank list */
+.ranklist { display: flex; flex-direction: column; gap: 10px; }
+.rank-row { display: grid; grid-template-columns: 30px 1fr auto auto; align-items: center; gap: 13px; padding: 13px 15px; border-radius: 15px; background: var(--card-2); }
+.rank-row.good { background: color-mix(in srgb, var(--good) 8%, var(--card-2)); }
+.rank-row.bad { background: color-mix(in srgb, var(--bad) 8%, var(--card-2)); }
+.rank-n { font-size: 17px; font-weight: 800; color: var(--muted); text-align: center; }
+.rank-row.good .rank-n { color: var(--good); }
+.rank-row.bad .rank-n { color: var(--bad); }
+.rank-name { font-size: 13.5px; font-weight: 700; display: flex; flex-direction: column; letter-spacing: -0.01em; }
+.rank-name small { font-size: 11px; font-weight: 700; margin-top: 1px; }
+.rank-metric { font-size: 11px; color: var(--muted); text-align: right; font-weight: 500; }
+.rank-metric em { display: block; font-size: 14px; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* ============ CAMPUS VIEW EXTENSIONS ============ */
+
+/* Campus selector tabs */
+.campus-tabs {
+  display: flex; gap: 8px; padding: 4px; background: var(--card); border-radius: 18px;
+  box-shadow: var(--shadow-sm); flex-wrap: wrap;
+}
+.campus-tab {
+  padding: 9px 18px; border: 0; border-radius: 13px; font-size: 13px; font-weight: 700;
+  color: var(--muted); background: transparent; transition: all .15s; cursor: pointer; letter-spacing: -0.01em;
+}
+.campus-tab:hover { color: var(--ink); background: var(--card-2); }
+.campus-tab.active { background: var(--accent); color: #fff; box-shadow: 0 2px 8px color-mix(in srgb,var(--accent) 30%,transparent); }
+.campus-tab.hq { font-size: 12px; letter-spacing: .01em; }
+
+/* Campus header banner */
+.campus-banner {
+  background: var(--card); border-radius: var(--radius); padding: 24px 28px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  box-shadow: var(--shadow-sm); border-left: 4px solid var(--accent);
+}
+.campus-banner-info { display: flex; flex-direction: column; gap: 4px; }
+.campus-banner-label { font-size: 11.5px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.campus-banner-name { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; }
+.campus-banner-meta { font-size: 13px; color: var(--muted); font-weight: 500; }
+.campus-badge {
+  display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; border-radius: 999px;
+  font-size: 12px; font-weight: 800; letter-spacing: .02em;
+}
+.campus-badge.hq { background: color-mix(in srgb,var(--c4) 12%,transparent); color: var(--c4); }
+.campus-badge.campus { background: color-mix(in srgb,var(--accent) 12%,transparent); color: var(--accent); }
+
+/* Anonymized benchmark */
+.bench-card {
+  background: var(--card); border-radius: var(--radius); padding: var(--pad);
+  box-shadow: var(--shadow-sm);
+}
+.bench-row {
+  display: grid; grid-template-columns: 1fr auto auto auto; align-items: center;
+  gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 13px;
+}
+.bench-row:last-child { border-bottom: 0; }
+.bench-label { font-weight: 700; }
+.bench-my { font-weight: 800; font-variant-numeric: tabular-nums; }
+.bench-avg { font-size: 12px; color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+.bench-delta {
+  display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 8px;
+  font-size: 11.5px; font-weight: 800; font-variant-numeric: tabular-nums;
+}
+.bench-delta.up { background: color-mix(in srgb,var(--good) 12%,transparent); color: var(--good); }
+.bench-delta.down { background: color-mix(in srgb,var(--bad) 12%,transparent); color: var(--bad); }
+.bench-delta.eq { background: color-mix(in srgb,var(--warn) 10%,transparent); color: var(--warn); }
+
+/* Journal de bord */
+.journal { display: flex; flex-direction: column; gap: 12px; }
+.journal-entry {
+  display: grid; grid-template-columns: 3px 1fr; gap: 16px; align-items: start;
+}
+.journal-stripe { border-radius: 3px; align-self: stretch; min-height: 40px; }
+.journal-body { display: flex; flex-direction: column; gap: 5px; padding: 2px 0; }
+.journal-date { font-size: 11px; color: var(--muted); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.journal-title { font-size: 14px; font-weight: 800; letter-spacing: -0.01em; }
+.journal-text { font-size: 12.5px; color: var(--muted); line-height: 1.55; font-weight: 500; }
+.journal-actions { display: flex; gap: 8px; margin-top: 6px; }
+.journal-action-btn {
+  padding: 5px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card);
+  font-size: 12px; font-weight: 700; color: var(--ink); cursor: pointer; transition: all .14s;
+}
+.journal-action-btn:hover { background: var(--card-2); border-color: var(--muted); }
+.journal-action-btn.primary { background: var(--accent); color: #fff; border-color: transparent; }
+
+/* Simulateur JPO */
+.simulator { display: flex; flex-direction: column; gap: 20px; }
+.sim-controls { display: flex; flex-direction: column; gap: 14px; }
+.sim-row { display: grid; grid-template-columns: 160px 1fr 80px; align-items: center; gap: 14px; }
+.sim-label { font-size: 13px; font-weight: 700; color: var(--ink); }
+.sim-range {
+  -webkit-appearance: none; appearance: none; height: 6px; border-radius: 4px;
+  background: var(--card-2); outline: none; cursor: pointer; width: 100%;
+}
+.sim-range::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent); cursor: pointer;
+}
+.sim-val { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; }
+.sim-results { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.sim-kpi {
+  background: var(--card-2); border-radius: 18px; padding: 16px 18px; display: flex;
+  flex-direction: column; gap: 6px; transition: background .2s;
+}
+.sim-kpi-label { font-size: 11.5px; color: var(--muted); font-weight: 700; }
+.sim-kpi-value { font-size: 28px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; }
+.sim-kpi-sub { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+
+/* Top visuels */
+.visuels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.visuel-card {
+  background: var(--card-2); border-radius: 18px; overflow: hidden;
+  transition: transform .18s, box-shadow .18s; cursor: pointer;
+}
+.visuel-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.visuel-thumb {
+  width: 100%; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+  font-size: 28px; font-weight: 800; letter-spacing: -0.04em; color: rgba(255,255,255,.9);
+  font-family: var(--sans);
+}
+.visuel-meta { padding: 13px 15px; display: flex; flex-direction: column; gap: 5px; }
+.visuel-name { font-size: 13px; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.visuel-kpis { display: flex; gap: 14px; }
+.visuel-kpi { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+.visuel-kpi em { color: var(--ink); font-weight: 800; font-variant-numeric: tabular-nums; }
+.visuel-badge { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 6px; color: #fff; display: inline-block; margin-bottom: 4px; }
+
+/* Filter bar */
+.filter-bar {
+  background: var(--card); border-radius: 18px; padding: 14px 20px;
+  display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow-sm); flex-wrap: wrap;
+}
+.filter-bar-label { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.filter-select {
+  padding: 8px 14px; border: 1px solid var(--line); border-radius: 11px; background: var(--card-2);
+  font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--ink); cursor: pointer;
+  outline: none; transition: border-color .15s;
+}
+.filter-select:focus { border-color: var(--accent); }
+.filter-divider { width: 1px; height: 22px; background: var(--line); flex: none; }
+
+/* Device split */
+.device-split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.device-item {
+  background: var(--card-2); border-radius: 16px; padding: 16px 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.device-icon { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; flex: none; }
+.device-info { display: flex; flex-direction: column; gap: 3px; }
+.device-name { font-size: 12.5px; font-weight: 700; }
+.device-val { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; }
+.device-sub { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+
+/* Density */
+[data-density="compact"] { --pad: 18px; --gap: 14px; --radius: 18px; }
+[data-density="compact"] .kpi { padding: 16px 18px; }
+[data-density="compact"] .kpi-value { font-size: 30px; }
+[data-density="compact"] .content { padding: 16px 26px 38px; }
+[data-density="compact"] .topbar { padding: 20px 26px 12px; }
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .grid-2, .grid-3, .grid-dash, .grid-funnelfocus { grid-template-columns: 1fr; }
+  .grid-dash .span-insights { grid-column: auto; }
+  .kpi-row, .kpi-row-5 { grid-template-columns: 1fr 1fr; }
+  .sim-results { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; }
+  .kpi-row { grid-template-columns: 1fr 1fr; }
+}
+  </style>
+
+  <!-- EXTRA STYLES for new features -->
+  <style>
+/* ===== YoY DELTA BADGE ===== */
+.yoy-badge {
+  display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 8px;
+  font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.yoy-badge.up { background: color-mix(in srgb,var(--good) 13%,transparent); color: var(--good); }
+.yoy-badge.down { background: color-mix(in srgb,var(--bad) 13%,transparent); color: var(--bad); }
+.yoy-badge.eq { background: color-mix(in srgb,var(--warn) 12%,transparent); color: var(--warn); }
+.kpi-yoy { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+.kpi-yoy-label { font-size: 11px; color: var(--muted); font-weight: 600; }
+
+/* ===== TICKETING ===== */
+.ticket-panel {
+  position: fixed; right: 0; top: 0; height: 100vh; width: 420px;
+  background: var(--card); box-shadow: -4px 0 40px rgba(0,0,0,.10); z-index: 200;
+  display: flex; flex-direction: column; overflow: hidden;
+  transform: translateX(100%); transition: transform .28s cubic-bezier(.2,.7,.3,1);
+}
+.ticket-panel.open { transform: translateX(0); }
+.ticket-panel-head {
+  padding: 22px 22px 16px; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between; flex: none;
+}
+.ticket-panel-title { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; }
+.ticket-panel-body { flex: 1; overflow-y: auto; padding: 16px 22px; display: flex; flex-direction: column; gap: 14px; }
+.ticket-card {
+  background: var(--card-2); border-radius: 16px; padding: 16px 18px;
+  display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--line);
+  transition: box-shadow .15s, border-color .15s; cursor: pointer;
+}
+.ticket-card:hover { box-shadow: var(--shadow-sm); border-color: var(--accent); }
+.ticket-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.ticket-title-text { font-size: 13.5px; font-weight: 800; letter-spacing: -0.01em; }
+.ticket-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ticket-tag {
+  display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 7px;
+  font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em;
+}
+.ticket-tag.market { background: color-mix(in srgb,var(--c1) 13%,transparent); color: var(--c1); }
+.ticket-tag.com { background: color-mix(in srgb,var(--c4) 13%,transparent); color: var(--c4); }
+.ticket-tag.urgent { background: color-mix(in srgb,var(--bad) 13%,transparent); color: var(--bad); }
+.ticket-tag.normal { background: color-mix(in srgb,var(--c2) 11%,transparent); color: var(--c2); }
+.ticket-tag.low { background: color-mix(in srgb,var(--muted) 13%,transparent); color: var(--muted); }
+.ticket-status-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.ticket-desc { font-size: 12px; color: var(--muted); line-height: 1.55; font-weight: 500; }
+.ticket-footer { display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: var(--muted); font-weight: 600; }
+.ticket-form {
+  background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px;
+  display: flex; flex-direction: column; gap: 12px; flex: none;
+}
+.ticket-form-title { font-size: 13px; font-weight: 800; margin-bottom: 2px; }
+.ticket-input {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--line); border-radius: 11px;
+  background: var(--card-2); font-family: var(--sans); font-size: 13px; font-weight: 500;
+  color: var(--ink); outline: none; transition: border-color .15s; box-sizing: border-box;
+}
+.ticket-input:focus { border-color: var(--accent); }
+.ticket-textarea { min-height: 72px; resize: vertical; }
+.ticket-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ticket-submit {
+  padding: 11px; border: 0; border-radius: 12px; background: var(--accent); color: #fff;
+  font-size: 13px; font-weight: 800; cursor: pointer; font-family: var(--sans);
+  transition: filter .15s, transform .12s;
+}
+.ticket-submit:hover { filter: brightness(1.07); }
+.ticket-submit:active { transform: scale(.97); }
+.ticket-badge-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; border-radius: 10px; background: var(--bad);
+  color: #fff; font-size: 10px; font-weight: 800; margin-left: 6px;
+}
+
+/* ===== NOTIFICATIONS ===== */
+.notif-panel {
+  position: fixed; right: 0; top: 0; height: 100vh; width: 380px;
+  background: var(--card); box-shadow: -4px 0 40px rgba(0,0,0,.10); z-index: 200;
+  display: flex; flex-direction: column; overflow: hidden;
+  transform: translateX(100%); transition: transform .28s cubic-bezier(.2,.7,.3,1);
+}
+.notif-panel.open { transform: translateX(0); }
+.notif-panel-head { padding: 22px 22px 16px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; flex: none; }
+.notif-panel-body { flex: 1; overflow-y: auto; padding: 16px 22px; display: flex; flex-direction: column; gap: 10px; }
+.notif-item {
+  background: var(--card-2); border-radius: 14px; padding: 14px 16px;
+  display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start;
+  border-left: 3px solid transparent; transition: border-color .15s;
+}
+.notif-item.unread { background: color-mix(in srgb,var(--accent) 5%,var(--card)); border-left-color: var(--accent); }
+.notif-item.warn { border-left-color: var(--warn); }
+.notif-item.bad { border-left-color: var(--bad); }
+.notif-item.good { border-left-color: var(--good); }
+.notif-icon { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: 16px; }
+.notif-title { font-size: 13px; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 3px; }
+.notif-text { font-size: 12px; color: var(--muted); line-height: 1.5; font-weight: 500; }
+.notif-time { font-size: 10.5px; color: var(--muted); margin-top: 5px; font-weight: 600; }
+.notif-dot {
+  width: 8px; height: 8px; border-radius: 4px; background: var(--accent);
+  display: inline-block; margin-left: 6px; vertical-align: middle;
+}
+
+/* ===== RETRO PLANNING ===== */
+.retro-timeline { display: flex; flex-direction: column; gap: 0; }
+.retro-item {
+  display: grid; grid-template-columns: 100px 16px 1fr; align-items: start; gap: 0;
+}
+.retro-date-col { padding: 0 12px 24px 0; text-align: right; }
+.retro-date-label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.retro-date-sub { font-size: 10.5px; color: var(--muted); font-weight: 500; }
+.retro-line-col { display: flex; flex-direction: column; align-items: center; padding: 3px 0 0; }
+.retro-dot { width: 14px; height: 14px; border-radius: 7px; flex: none; z-index: 1; border: 2px solid var(--card); }
+.retro-connector { flex: 1; width: 2px; background: var(--line); min-height: 32px; }
+.retro-item:last-child .retro-connector { display: none; }
+.retro-body { padding: 0 0 24px 14px; }
+.retro-title { font-size: 13.5px; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 4px; }
+.retro-desc { font-size: 12px; color: var(--muted); line-height: 1.55; font-weight: 500; }
+.retro-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.retro-tag { padding: 2px 8px; border-radius: 6px; font-size: 10.5px; font-weight: 800; }
+.retro-item.past .retro-dot { background: var(--good); }
+.retro-item.today .retro-dot { background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb,var(--accent) 20%,transparent); }
+.retro-item.upcoming .retro-dot { background: var(--line); }
+.retro-item.urgent .retro-dot { background: var(--bad); box-shadow: 0 0 0 4px color-mix(in srgb,var(--bad) 20%,transparent); }
+
+/* ===== COMMENTS ===== */
+.comment-section { border-top: 1px solid var(--line); margin-top: 16px; padding-top: 16px; }
+.comment-toggle {
+  display: flex; align-items: center; gap: 8px; padding: 8px 0; border: 0; background: none;
+  font-size: 12.5px; font-weight: 700; color: var(--muted); cursor: pointer; font-family: var(--sans);
+  transition: color .15s;
+}
+.comment-toggle:hover { color: var(--ink); }
+.comment-count-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 1px 8px; border-radius: 10px; background: var(--card-2);
+  font-size: 10.5px; font-weight: 800; color: var(--muted);
+}
+.comments-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.comment-item {
+  display: grid; grid-template-columns: 32px 1fr; gap: 10px; align-items: start;
+}
+.comment-avatar {
+  width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+  font-size: 12px; font-weight: 800; color: #fff; flex: none;
+}
+.comment-bubble { background: var(--card-2); border-radius: 0 12px 12px 12px; padding: 10px 14px; }
+.comment-author { font-size: 11.5px; font-weight: 800; margin-bottom: 3px; }
+.comment-text { font-size: 12.5px; color: var(--ink); line-height: 1.5; font-weight: 500; }
+.comment-time { font-size: 10.5px; color: var(--muted); margin-top: 4px; font-weight: 600; }
+.comment-input-row { display: flex; gap: 8px; margin-top: 14px; align-items: flex-end; }
+.comment-input {
+  flex: 1; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px;
+  background: var(--card-2); font-family: var(--sans); font-size: 13px; color: var(--ink);
+  outline: none; transition: border-color .15s; resize: none; min-height: 40px;
+}
+.comment-input:focus { border-color: var(--accent); }
+.comment-send {
+  padding: 10px 16px; border: 0; border-radius: 12px; background: var(--accent); color: #fff;
+  font-size: 12.5px; font-weight: 800; cursor: pointer; font-family: var(--sans); white-space: nowrap;
+  transition: filter .15s; flex: none;
+}
+.comment-send:hover { filter: brightness(1.07); }
+
+/* ===== TOPBAR ICON BTNS ===== */
+.icon-btn {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line);
+  background: var(--card); cursor: pointer; transition: background .15s, border-color .15s;
+}
+.icon-btn:hover { background: var(--card-2); border-color: var(--muted); }
+.icon-btn-badge {
+  position: absolute; top: -3px; right: -3px; width: 17px; height: 17px; border-radius: 50%;
+  background: var(--bad); color: #fff; font-size: 9px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; border: 2px solid var(--card);
+}
+.overlay-bg {
+  position: fixed; inset: 0; background: rgba(0,0,0,.25); z-index: 190;
+  opacity: 0; pointer-events: none; transition: opacity .22s;
+}
+.overlay-bg.visible { opacity: 1; pointer-events: auto; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+  <!-- Dataset inline -->
+  <script>
+window.JPO_DATASET = {
+  meta: {"tempsFort":"JPO — 13 Décembre 2025","ecole":"ESG Luxe","date":"13 décembre 2025","periode":"Nov + Déc 2025"},
+  rows: [{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Video_JPO -logo 2 ads","impressions":76474,"clics":629,"ctr":0.00822501765305856,"cout":567.05,"leads":16,"cpl":35.440625,"cvr":0.0254372019077901},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Statique_JPO_1 2 ads","impressions":59679,"clics":413,"ctr":0.0069203572445919,"cout":455.37,"leads":18,"cpl":25.2983333333333,"cvr":0.0435835351089588},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Statique_JPO_1 2 ads","impressions":18748,"clics":249,"ctr":0.0132814166844463,"cout":203.26,"leads":6,"cpl":33.8766666666667,"cvr":0.0240963855421687},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Video_JPO -sstitres 2 ads","impressions":12033,"clics":476,"ctr":0.0395578824898197,"cout":172.77,"leads":9,"cpl":19.1966666666667,"cvr":0.0189075630252101},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Statique_JPO_2 2 ads","impressions":11907,"clics":99,"ctr":0.00831443688586546,"cout":99.3,"leads":3,"cpl":33.1,"cvr":0.0303030303030303},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Statique_JPO_4 2 ads","impressions":8995,"clics":82,"ctr":0.00911617565314063,"cout":88.99,"leads":1,"cpl":88.99,"cvr":0.0121951219512195},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Statique_JPO_4 2 ads","impressions":6047,"clics":94,"ctr":0.015544898296676,"cout":81.93,"leads":3,"cpl":27.31,"cvr":0.0319148936170213},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Video_JPO -sstitres 2 ads","impressions":6625,"clics":109,"ctr":0.0164528301886792,"cout":78.03,"leads":1,"cpl":78.03,"cvr":0.00917431192660551},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Video_JPO -logo 1 ad","impressions":5253,"clics":69,"ctr":0.0131353512278698,"cout":69.48,"leads":1,"cpl":69.48,"cvr":0.0144927536231884},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Statique_JPO_5 2 ads","impressions":6293,"clics":60,"ctr":0.00953440330525981,"cout":68.11,"leads":6,"cpl":11.3516666666667,"cvr":0.1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Video_JPO 2 ads","impressions":3235,"clics":38,"ctr":0.0117465224111283,"cout":35.18,"leads":2,"cpl":17.59,"cvr":0.0526315789473684},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Video_JPO 2 ads","impressions":1837,"clics":22,"ctr":0.0119760479041916,"cout":31.32,"leads":0,"cvr":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Statique_JPO_5 2 ads","impressions":1686,"clics":22,"ctr":0.0130486358244365,"cout":21.43,"leads":0,"cvr":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Statique_JPO_2 2 ads","impressions":1091,"clics":12,"ctr":0.0109990834097159,"cout":11.85,"leads":0,"cvr":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Statique_JPO_3 2 ads","impressions":515,"clics":7,"ctr":0.0135922330097087,"cout":8.92,"leads":0,"cvr":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Statique_JPO_3 2 ads","impressions":667,"clics":4,"ctr":0.00599700149925038,"cout":8.26,"leads":0,"cvr":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"décembre 2025","levier":"SEA","sousLevier":"Google Ads","mois":"décembre","annee":"2025","typePage":"Site","url":"https://www.esg-luxe.com/portes-ouvertes-lesg-luxe","impressions":17308,"clics":369,"ctr":0.0213196209845158,"cout":195.656136,"leads":5.329474,"cpl":36.7120912870576,"cvr":0.0144430189701897,"cpc":0.530233430894309},{"tempsFort":"JPO - 13 Décembre 2025","periode":"décembre 2025","levier":"SEA","sousLevier":"Google Ads","mois":"décembre","annee":"2025","typePage":"Landing Page","url":"https://www.esg-luxe.com/landing-page/portes-ouvertes-admissions","impressions":368,"clics":48,"ctr":0.130434782608696,"cout":38.950029,"leads":6,"cpl":6.4916715,"cvr":0.125,"cpc":0.8114589375},{"tempsFort":"JPO - 13 Décembre 2025","periode":"novembre 2025","levier":"SEA","sousLevier":"Google Ads","mois":"novembre","annee":"2025","typePage":"Site","url":"https://www.esg-luxe.com/portes-ouvertes-lesg-luxe","impressions":25040,"clics":476,"ctr":0.0190095846645367,"cout":267.790025,"leads":15.581734,"cpl":17.1861504630999,"cvr":0.0327347352941177,"cpc":0.562584086134454},{"tempsFort":"JPO - 13 Décembre 2025","periode":"novembre 2025","levier":"SEA","sousLevier":"Google Ads","mois":"novembre","annee":"2025","typePage":"Landing Page","url":"https://www.esg-luxe.com/landing-page/portes-ouvertes-admissions","impressions":248,"clics":41,"ctr":0.165322580645161,"cout":33.781848,"leads":7.762955,"cpl":4.35167381493259,"cvr":0.189340365853659,"cpc":0.823947512195122},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":154,"campus":"ESG Luxe","support":"CPC (deprecated)","nbLeads":154,"nbVenus":28,"nbNonVenus":126,"nbConfirmes":0,"tauxPresence":0.181818181818182},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":28,"campus":"ESG Luxe","support":"Direct","nbLeads":28,"nbVenus":6,"nbNonVenus":22,"nbConfirmes":0,"tauxPresence":0.214285714285714},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":40,"campus":"ESG Luxe","support":"Display","nbLeads":40,"nbVenus":6,"nbNonVenus":34,"nbConfirmes":0,"tauxPresence":0.15},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":12,"campus":"ESG Luxe","support":"Referral","nbLeads":12,"nbVenus":4,"nbNonVenus":8,"nbConfirmes":0,"tauxPresence":0.333333333333333},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":46,"campus":"ESG Luxe","support":"SEO","nbLeads":46,"nbVenus":11,"nbNonVenus":35,"nbConfirmes":0,"tauxPresence":0.239130434782609},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":13,"campus":"ESG Luxe","support":"Unknown","nbLeads":13,"nbVenus":5,"nbNonVenus":8,"nbConfirmes":0,"tauxPresence":0.384615384615385},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":33,"campus":"ESG Luxe Aix","support":"CPC (deprecated)","nbLeads":33,"nbVenus":12,"nbNonVenus":21,"nbConfirmes":0,"tauxPresence":0.363636363636364},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":8,"campus":"ESG Luxe Aix","support":"Direct","nbLeads":8,"nbVenus":2,"nbNonVenus":6,"nbConfirmes":0,"tauxPresence":0.25},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Aix","support":"Referral","nbLeads":1,"nbVenus":1,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":9,"campus":"ESG Luxe Aix","support":"SEO","nbLeads":9,"nbVenus":7,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.777777777777778},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Biarritz","support":"CPC (deprecated)","nbLeads":4,"nbVenus":0,"nbNonVenus":0,"nbConfirmes":4,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":0,"campus":"ESG Luxe Biarritz","support":"Direct","nbLeads":0,"nbVenus":0,"nbNonVenus":0,"nbConfirmes":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":0,"campus":"ESG Luxe Biarritz","support":"Display","nbLeads":0,"nbVenus":0,"nbNonVenus":0,"nbConfirmes":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Biarritz","support":"SEO","nbLeads":4,"nbVenus":4,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Biarritz","support":"Unknown","nbLeads":1,"nbVenus":1,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":30,"campus":"ESG Luxe Bordeaux","support":"CPC (deprecated)","nbLeads":30,"nbVenus":7,"nbNonVenus":17,"nbConfirmes":6,"tauxPresence":0.233333333333333},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":6,"campus":"ESG Luxe Bordeaux","support":"Direct","nbLeads":6,"nbVenus":3,"nbNonVenus":3,"nbConfirmes":0,"tauxPresence":0.5},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Bordeaux","support":"Email","nbLeads":1,"nbVenus":0,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":2,"campus":"ESG Luxe Bordeaux","support":"Referral","nbLeads":2,"nbVenus":1,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0.5},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":10,"campus":"ESG Luxe Bordeaux","support":"SEO","nbLeads":10,"nbVenus":2,"nbNonVenus":7,"nbConfirmes":1,"tauxPresence":0.2},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":5,"campus":"ESG Luxe Bordeaux","support":"Unknown","nbLeads":5,"nbVenus":2,"nbNonVenus":2,"nbConfirmes":1,"tauxPresence":0.4},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":10,"campus":"ESG Luxe Dijon","support":"CPC (deprecated)","nbLeads":10,"nbVenus":3,"nbNonVenus":7,"nbConfirmes":0,"tauxPresence":0.3},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Dijon","support":"Direct","nbLeads":4,"nbVenus":4,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Dijon","support":"PDF","nbLeads":1,"nbVenus":1,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Dijon","support":"Referral","nbLeads":1,"nbVenus":1,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Dijon","support":"SEO","nbLeads":4,"nbVenus":2,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.5},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":56,"campus":"ESG Luxe Lyon","support":"CPC (deprecated)","nbLeads":56,"nbVenus":16,"nbNonVenus":40,"nbConfirmes":0,"tauxPresence":0.285714285714286},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":5,"campus":"ESG Luxe Lyon","support":"Direct","nbLeads":5,"nbVenus":2,"nbNonVenus":3,"nbConfirmes":0,"tauxPresence":0.4},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":3,"campus":"ESG Luxe Lyon","support":"Display","nbLeads":3,"nbVenus":1,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.333333333333333},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Lyon","support":"Referral","nbLeads":4,"nbVenus":2,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.5},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":18,"campus":"ESG Luxe Lyon","support":"SEO","nbLeads":18,"nbVenus":3,"nbNonVenus":15,"nbConfirmes":0,"tauxPresence":0.166666666666667},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":2,"campus":"ESG Luxe Lyon","support":"Unknown","nbLeads":2,"nbVenus":1,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0.5},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":35,"campus":"ESG Luxe Montpellier","support":"CPC (deprecated)","nbLeads":35,"nbVenus":17,"nbNonVenus":18,"nbConfirmes":0,"tauxPresence":0.485714285714286},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":2,"campus":"ESG Luxe Montpellier","support":"Direct","nbLeads":2,"nbVenus":2,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Montpellier","support":"Email","nbLeads":1,"nbVenus":1,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Montpellier","support":"SEO","nbLeads":4,"nbVenus":0,"nbNonVenus":4,"nbConfirmes":0,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":22,"campus":"ESG Luxe Rennes","support":"CPC (deprecated)","nbLeads":22,"nbVenus":12,"nbNonVenus":10,"nbConfirmes":0,"tauxPresence":0.545454545454545},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":2,"campus":"ESG Luxe Rennes","support":"Direct","nbLeads":2,"nbVenus":1,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0.5},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":0,"campus":"ESG Luxe Rennes","support":"Email","nbLeads":0,"nbVenus":0,"nbNonVenus":0,"nbConfirmes":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Rennes","support":"Referral","nbLeads":1,"nbVenus":0,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":7,"campus":"ESG Luxe Rennes","support":"SEO","nbLeads":7,"nbVenus":5,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.714285714285714},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":13,"campus":"ESG Luxe Rennes","support":"Unknown","nbLeads":13,"nbVenus":11,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.846153846153846},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":18,"campus":"ESG Luxe Strasbourg","support":"CPC (deprecated)","nbLeads":18,"nbVenus":8,"nbNonVenus":10,"nbConfirmes":0,"tauxPresence":0.444444444444444},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":3,"campus":"ESG Luxe Strasbourg","support":"Referral","nbLeads":3,"nbVenus":1,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.333333333333333},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Strasbourg","support":"SEO","nbLeads":1,"nbVenus":1,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":7,"campus":"ESG Luxe Strasbourg","support":"Unknown","nbLeads":7,"nbVenus":5,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.714285714285714},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":34,"campus":"ESG Luxe Toulouse","support":"CPC (deprecated)","nbLeads":34,"nbVenus":9,"nbNonVenus":25,"nbConfirmes":0,"tauxPresence":0.264705882352941},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":3,"campus":"ESG Luxe Toulouse","support":"Direct","nbLeads":3,"nbVenus":2,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0.666666666666667},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Toulouse","support":"Display","nbLeads":1,"nbVenus":0,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Toulouse","support":"Email","nbLeads":1,"nbVenus":0,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Toulouse","support":"Referral","nbLeads":1,"nbVenus":0,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":8,"campus":"ESG Luxe Toulouse","support":"SEO","nbLeads":8,"nbVenus":1,"nbNonVenus":7,"nbConfirmes":0,"tauxPresence":0.125},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Toulouse","support":"Unknown","nbLeads":4,"nbVenus":1,"nbNonVenus":3,"nbConfirmes":0,"tauxPresence":0.25}]
+};
+  </script>
+
+  <!-- Dataset inline -->
+  <script>
+window.JPO_DATASET = {
+  meta: {"tempsFort":"JPO — 13 Décembre 2025","ecole":"ESG Luxe","date":"13 décembre 2025","periode":"Nov + Déc 2025"},
+  rows: [{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Video_JPO -logo 2 ads","impressions":76474,"clics":629,"ctr":0.00822501765305856,"cout":567.05,"leads":16,"cpl":35.440625,"cvr":0.0254372019077901},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Statique_JPO_1 2 ads","impressions":59679,"clics":413,"ctr":0.0069203572445919,"cout":455.37,"leads":18,"cpl":25.2983333333333,"cvr":0.0435835351089588},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Statique_JPO_1 2 ads","impressions":18748,"clics":249,"ctr":0.0132814166844463,"cout":203.26,"leads":6,"cpl":33.8766666666667,"cvr":0.0240963855421687},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Video_JPO -sstitres 2 ads","impressions":12033,"clics":476,"ctr":0.0395578824898197,"cout":172.77,"leads":9,"cpl":19.1966666666667,"cvr":0.0189075630252101},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Statique_JPO_2 2 ads","impressions":11907,"clics":99,"ctr":0.00831443688586546,"cout":99.3,"leads":3,"cpl":33.1,"cvr":0.0303030303030303},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Statique_JPO_4 2 ads","impressions":8995,"clics":82,"ctr":0.00911617565314063,"cout":88.99,"leads":1,"cpl":88.99,"cvr":0.0121951219512195},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Statique_JPO_4 2 ads","impressions":6047,"clics":94,"ctr":0.015544898296676,"cout":81.93,"leads":3,"cpl":27.31,"cvr":0.0319148936170213},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Video_JPO -sstitres 2 ads","impressions":6625,"clics":109,"ctr":0.0164528301886792,"cout":78.03,"leads":1,"cpl":78.03,"cvr":0.00917431192660551},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Video_JPO -logo 1 ad","impressions":5253,"clics":69,"ctr":0.0131353512278698,"cout":69.48,"leads":1,"cpl":69.48,"cvr":0.0144927536231884},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Statique_JPO_5 2 ads","impressions":6293,"clics":60,"ctr":0.00953440330525981,"cout":68.11,"leads":6,"cpl":11.3516666666667,"cvr":0.1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Video_JPO 2 ads","impressions":3235,"clics":38,"ctr":0.0117465224111283,"cout":35.18,"leads":2,"cpl":17.59,"cvr":0.0526315789473684},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Video_JPO 2 ads","impressions":1837,"clics":22,"ctr":0.0119760479041916,"cout":31.32,"leads":0,"cvr":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Statique_JPO_5 2 ads","impressions":1686,"clics":22,"ctr":0.0130486358244365,"cout":21.43,"leads":0,"cvr":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Statique_JPO_2 2 ads","impressions":1091,"clics":12,"ctr":0.0109990834097159,"cout":11.85,"leads":0,"cvr":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"40/65+-H/F-IDF+Nord-Interets-Static","ad":"Statique_JPO_3 2 ads","impressions":515,"clics":7,"ctr":0.0135922330097087,"cout":8.92,"leads":0,"cvr":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Nov + Déc 2025","levier":"SMA","sousLevier":"Meta Ads","campaign":"ESGLUXE-GGE-💎-Perf-JPO-DECEMBRE-Static-IDF-131225","adset":"18/30-H/F-IDF+Nord-Static","ad":"Statique_JPO_3 2 ads","impressions":667,"clics":4,"ctr":0.00599700149925038,"cout":8.26,"leads":0,"cvr":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"décembre 2025","levier":"SEA","sousLevier":"Google Ads","mois":"décembre","annee":"2025","typePage":"Site","url":"https://www.esg-luxe.com/portes-ouvertes-lesg-luxe","impressions":17308,"clics":369,"ctr":0.0213196209845158,"cout":195.656136,"leads":5.329474,"cpl":36.7120912870576,"cvr":0.0144430189701897,"cpc":0.530233430894309},{"tempsFort":"JPO - 13 Décembre 2025","periode":"décembre 2025","levier":"SEA","sousLevier":"Google Ads","mois":"décembre","annee":"2025","typePage":"Landing Page","url":"https://www.esg-luxe.com/landing-page/portes-ouvertes-admissions","impressions":368,"clics":48,"ctr":0.130434782608696,"cout":38.950029,"leads":6,"cpl":6.4916715,"cvr":0.125,"cpc":0.8114589375},{"tempsFort":"JPO - 13 Décembre 2025","periode":"novembre 2025","levier":"SEA","sousLevier":"Google Ads","mois":"novembre","annee":"2025","typePage":"Site","url":"https://www.esg-luxe.com/portes-ouvertes-lesg-luxe","impressions":25040,"clics":476,"ctr":0.0190095846645367,"cout":267.790025,"leads":15.581734,"cpl":17.1861504630999,"cvr":0.0327347352941177,"cpc":0.562584086134454},{"tempsFort":"JPO - 13 Décembre 2025","periode":"novembre 2025","levier":"SEA","sousLevier":"Google Ads","mois":"novembre","annee":"2025","typePage":"Landing Page","url":"https://www.esg-luxe.com/landing-page/portes-ouvertes-admissions","impressions":248,"clics":41,"ctr":0.165322580645161,"cout":33.781848,"leads":7.762955,"cpl":4.35167381493259,"cvr":0.189340365853659,"cpc":0.823947512195122},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":154,"campus":"ESG Luxe","support":"CPC (deprecated)","nbLeads":154,"nbVenus":28,"nbNonVenus":126,"nbConfirmes":0,"tauxPresence":0.181818181818182},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":28,"campus":"ESG Luxe","support":"Direct","nbLeads":28,"nbVenus":6,"nbNonVenus":22,"nbConfirmes":0,"tauxPresence":0.214285714285714},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":40,"campus":"ESG Luxe","support":"Display","nbLeads":40,"nbVenus":6,"nbNonVenus":34,"nbConfirmes":0,"tauxPresence":0.15},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":12,"campus":"ESG Luxe","support":"Referral","nbLeads":12,"nbVenus":4,"nbNonVenus":8,"nbConfirmes":0,"tauxPresence":0.333333333333333},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":46,"campus":"ESG Luxe","support":"SEO","nbLeads":46,"nbVenus":11,"nbNonVenus":35,"nbConfirmes":0,"tauxPresence":0.239130434782609},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":13,"campus":"ESG Luxe","support":"Unknown","nbLeads":13,"nbVenus":5,"nbNonVenus":8,"nbConfirmes":0,"tauxPresence":0.384615384615385},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":33,"campus":"ESG Luxe Aix","support":"CPC (deprecated)","nbLeads":33,"nbVenus":12,"nbNonVenus":21,"nbConfirmes":0,"tauxPresence":0.363636363636364},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":8,"campus":"ESG Luxe Aix","support":"Direct","nbLeads":8,"nbVenus":2,"nbNonVenus":6,"nbConfirmes":0,"tauxPresence":0.25},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Aix","support":"Referral","nbLeads":1,"nbVenus":1,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":9,"campus":"ESG Luxe Aix","support":"SEO","nbLeads":9,"nbVenus":7,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.777777777777778},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Biarritz","support":"CPC (deprecated)","nbLeads":4,"nbVenus":0,"nbNonVenus":0,"nbConfirmes":4,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":0,"campus":"ESG Luxe Biarritz","support":"Direct","nbLeads":0,"nbVenus":0,"nbNonVenus":0,"nbConfirmes":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":0,"campus":"ESG Luxe Biarritz","support":"Display","nbLeads":0,"nbVenus":0,"nbNonVenus":0,"nbConfirmes":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Biarritz","support":"SEO","nbLeads":4,"nbVenus":4,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Biarritz","support":"Unknown","nbLeads":1,"nbVenus":1,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":30,"campus":"ESG Luxe Bordeaux","support":"CPC (deprecated)","nbLeads":30,"nbVenus":7,"nbNonVenus":17,"nbConfirmes":6,"tauxPresence":0.233333333333333},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":6,"campus":"ESG Luxe Bordeaux","support":"Direct","nbLeads":6,"nbVenus":3,"nbNonVenus":3,"nbConfirmes":0,"tauxPresence":0.5},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Bordeaux","support":"Email","nbLeads":1,"nbVenus":0,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":2,"campus":"ESG Luxe Bordeaux","support":"Referral","nbLeads":2,"nbVenus":1,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0.5},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":10,"campus":"ESG Luxe Bordeaux","support":"SEO","nbLeads":10,"nbVenus":2,"nbNonVenus":7,"nbConfirmes":1,"tauxPresence":0.2},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":5,"campus":"ESG Luxe Bordeaux","support":"Unknown","nbLeads":5,"nbVenus":2,"nbNonVenus":2,"nbConfirmes":1,"tauxPresence":0.4},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":10,"campus":"ESG Luxe Dijon","support":"CPC (deprecated)","nbLeads":10,"nbVenus":3,"nbNonVenus":7,"nbConfirmes":0,"tauxPresence":0.3},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Dijon","support":"Direct","nbLeads":4,"nbVenus":4,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Dijon","support":"PDF","nbLeads":1,"nbVenus":1,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Dijon","support":"Referral","nbLeads":1,"nbVenus":1,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Dijon","support":"SEO","nbLeads":4,"nbVenus":2,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.5},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":56,"campus":"ESG Luxe Lyon","support":"CPC (deprecated)","nbLeads":56,"nbVenus":16,"nbNonVenus":40,"nbConfirmes":0,"tauxPresence":0.285714285714286},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":5,"campus":"ESG Luxe Lyon","support":"Direct","nbLeads":5,"nbVenus":2,"nbNonVenus":3,"nbConfirmes":0,"tauxPresence":0.4},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":3,"campus":"ESG Luxe Lyon","support":"Display","nbLeads":3,"nbVenus":1,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.333333333333333},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Lyon","support":"Referral","nbLeads":4,"nbVenus":2,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.5},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":18,"campus":"ESG Luxe Lyon","support":"SEO","nbLeads":18,"nbVenus":3,"nbNonVenus":15,"nbConfirmes":0,"tauxPresence":0.166666666666667},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":2,"campus":"ESG Luxe Lyon","support":"Unknown","nbLeads":2,"nbVenus":1,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0.5},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":35,"campus":"ESG Luxe Montpellier","support":"CPC (deprecated)","nbLeads":35,"nbVenus":17,"nbNonVenus":18,"nbConfirmes":0,"tauxPresence":0.485714285714286},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":2,"campus":"ESG Luxe Montpellier","support":"Direct","nbLeads":2,"nbVenus":2,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Montpellier","support":"Email","nbLeads":1,"nbVenus":1,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Montpellier","support":"SEO","nbLeads":4,"nbVenus":0,"nbNonVenus":4,"nbConfirmes":0,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":22,"campus":"ESG Luxe Rennes","support":"CPC (deprecated)","nbLeads":22,"nbVenus":12,"nbNonVenus":10,"nbConfirmes":0,"tauxPresence":0.545454545454545},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":2,"campus":"ESG Luxe Rennes","support":"Direct","nbLeads":2,"nbVenus":1,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0.5},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":0,"campus":"ESG Luxe Rennes","support":"Email","nbLeads":0,"nbVenus":0,"nbNonVenus":0,"nbConfirmes":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Rennes","support":"Referral","nbLeads":1,"nbVenus":0,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":7,"campus":"ESG Luxe Rennes","support":"SEO","nbLeads":7,"nbVenus":5,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.714285714285714},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":13,"campus":"ESG Luxe Rennes","support":"Unknown","nbLeads":13,"nbVenus":11,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.846153846153846},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":18,"campus":"ESG Luxe Strasbourg","support":"CPC (deprecated)","nbLeads":18,"nbVenus":8,"nbNonVenus":10,"nbConfirmes":0,"tauxPresence":0.444444444444444},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":3,"campus":"ESG Luxe Strasbourg","support":"Referral","nbLeads":3,"nbVenus":1,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.333333333333333},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Strasbourg","support":"SEO","nbLeads":1,"nbVenus":1,"nbNonVenus":0,"nbConfirmes":0,"tauxPresence":1},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":7,"campus":"ESG Luxe Strasbourg","support":"Unknown","nbLeads":7,"nbVenus":5,"nbNonVenus":2,"nbConfirmes":0,"tauxPresence":0.714285714285714},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":34,"campus":"ESG Luxe Toulouse","support":"CPC (deprecated)","nbLeads":34,"nbVenus":9,"nbNonVenus":25,"nbConfirmes":0,"tauxPresence":0.264705882352941},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":3,"campus":"ESG Luxe Toulouse","support":"Direct","nbLeads":3,"nbVenus":2,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0.666666666666667},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Toulouse","support":"Display","nbLeads":1,"nbVenus":0,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Toulouse","support":"Email","nbLeads":1,"nbVenus":0,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":1,"campus":"ESG Luxe Toulouse","support":"Referral","nbLeads":1,"nbVenus":0,"nbNonVenus":1,"nbConfirmes":0,"tauxPresence":0},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":8,"campus":"ESG Luxe Toulouse","support":"SEO","nbLeads":8,"nbVenus":1,"nbNonVenus":7,"nbConfirmes":0,"tauxPresence":0.125},{"tempsFort":"JPO - 13 Décembre 2025","periode":"Déc 2025","levier":"CRM","sousLevier":"Leads JPO","mois":"décembre","annee":"2025","leads":4,"campus":"ESG Luxe Toulouse","support":"Unknown","nbLeads":4,"nbVenus":1,"nbNonVenus":3,"nbConfirmes":0,"tauxPresence":0.25}]
+};
+  </script>
+  <!-- DATA ENGINE -->
+  <script type="text/babel">
+(function () {
+  const num = (x) => (x == null || x === '' || !Number.isFinite(Number(x)) ? 0 : Number(x));
+  const eur = (x) => '€' + num(x).toLocaleString('fr-FR', { maximumFractionDigits: 0 });
+  const eur2 = (x) => '€' + num(x).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const pct = (x, d = 1) => (num(x) * 100).toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d }) + '%';
+  const intf = (x) => Math.round(num(x)).toLocaleString('fr-FR');
+  const sum = (arr, f) => arr.reduce((s, r) => s + num(typeof f === 'function' ? f(r) : r[f]), 0);
+
+  const LEVIERS = ['SMA', 'SEA', 'CRM'];
+  const LEVIER_LABEL = { SMA: 'SMA · Meta Ads', SEA: 'SEA · Google Ads', CRM: 'CRM · Leads' };
+
+  function creativeType(ad) {
+    if (!ad) return 'Autre';
+    const a = ad.toLowerCase();
+    if (a.includes('video') || a.includes('vidéo')) return 'Vidéo';
+    if (a.includes('statique') || a.includes('static')) return 'Statique';
+    return 'Autre';
+  }
+  function creativeName(ad) {
+    if (!ad) return '—';
+    return ad.replace(/\s*\d+\s*ads?$/i, '').trim();
+  }
+
+  function aggregate(rows) {
+    const paid = rows.filter((r) => r.levier === 'SMA' || r.levier === 'SEA');
+    const sma = rows.filter((r) => r.levier === 'SMA');
+    const sea = rows.filter((r) => r.levier === 'SEA');
+    const crm = rows.filter((r) => r.levier === 'CRM');
+    const impressions = sum(paid, 'impressions');
+    const clics = sum(paid, 'clics');
+    const coutTotal = sum(paid, 'cout');
+    const leadsPaid = sum(paid, 'leads');
+    const crmLeads = sum(crm, 'nbLeads');
+    const venus = sum(crm, 'nbVenus');
+    const confirmes = sum(crm, 'nbConfirmes');
+    const leadsTotal = crmLeads || Math.round(leadsPaid);
+    const cplMoyen = leadsPaid > 0 ? coutTotal / leadsPaid : 0;
+    const tauxPresence = leadsTotal > 0 ? venus / leadsTotal : 0;
+    const ctrGlobal = impressions > 0 ? clics / impressions : 0;
+    function levierBlock(arr, key) {
+      const c = sum(arr, 'cout'); const l = key === 'CRM' ? sum(arr, 'nbLeads') : sum(arr, 'leads');
+      const imp = sum(arr, 'impressions'); const cl = sum(arr, 'clics');
+      return { levier: key, cout: c, leads: l, impressions: imp, clics: cl,
+        cpl: l > 0 && c > 0 ? c / l : 0, ctr: imp > 0 ? cl / imp : 0,
+        venus: key === 'CRM' ? sum(arr, 'nbVenus') : 0 };
+    }
+    return {
+      impressions, clics, coutTotal, leadsPaid, crmLeads, venus, confirmes, leadsTotal,
+      cplMoyen, tauxPresence, ctrGlobal,
+      funnel: [
+        { label: 'Impressions', value: impressions }, { label: 'Clics', value: clics },
+        { label: 'Leads', value: leadsTotal }, { label: 'Présents', value: venus },
+      ],
+      parLevier: [levierBlock(sma, 'SMA'), levierBlock(sea, 'SEA'), levierBlock(crm, 'CRM')],
+    };
+  }
+
+  function campaignRows(rows) {
+    const paid = rows.filter((r) => r.levier === 'SMA' || r.levier === 'SEA');
+    const groups = {};
+    for (const r of paid) {
+      let key, label;
+      if (r.levier === 'SMA') { key = 'SMA|' + (r.adset || r.campaign); label = r.adset || r.campaign; }
+      else { key = 'SEA|' + (r.typePage || 'Site'); label = 'Google · ' + (r.typePage || 'Site'); }
+      if (!groups[key]) groups[key] = { key, label, levier: r.levier, impressions: 0, clics: 0, cout: 0, leads: 0 };
+      const g = groups[key];
+      g.impressions += num(r.impressions); g.clics += num(r.clics); g.cout += num(r.cout); g.leads += num(r.leads);
+    }
+    return Object.values(groups).map((g) => ({ ...g,
+      ctr: g.impressions > 0 ? g.clics / g.impressions : 0,
+      cpc: g.clics > 0 ? g.cout / g.clics : 0,
+      cpl: g.leads > 0 ? g.cout / g.leads : 0,
+      cvr: g.clics > 0 ? g.leads / g.clics : 0,
+    })).sort((a, b) => b.cout - a.cout);
+  }
+
+  function creativeAnalysis(rows) {
+    const sma = rows.filter((r) => r.levier === 'SMA');
+    const byType = {}; const byCrea = {};
+    for (const r of sma) {
+      const t = creativeType(r.ad); const nm = creativeName(r.ad);
+      if (!byType[t]) byType[t] = { type: t, impressions: 0, clics: 0, cout: 0, leads: 0 };
+      const gt = byType[t]; gt.impressions += num(r.impressions); gt.clics += num(r.clics); gt.cout += num(r.cout); gt.leads += num(r.leads);
+      if (!byCrea[nm]) byCrea[nm] = { name: nm, type: t, impressions: 0, clics: 0, cout: 0, leads: 0 };
+      const gc = byCrea[nm]; gc.impressions += num(r.impressions); gc.clics += num(r.clics); gc.cout += num(r.cout); gc.leads += num(r.leads);
+    }
+    const finalize = (g) => ({ ...g,
+      ctr: g.impressions > 0 ? g.clics / g.impressions : 0,
+      cvr: g.clics > 0 ? g.leads / g.clics : 0,
+      cpl: g.leads > 0 ? g.cout / g.leads : 0,
+    });
+    const types = Object.values(byType).map(finalize).sort((a, b) => b.leads - a.leads);
+    const creas = Object.values(byCrea).map(finalize);
+    const withLeads = creas.filter((c) => c.leads > 0).sort((a, b) => a.cpl - b.cpl);
+    const top = withLeads.slice(0, 3);
+    const zeroConv = creas.filter((c) => c.leads === 0 && c.clics > 0).sort((a, b) => b.cout - a.cout);
+    const worst = [...[...withLeads].reverse().slice(0, 3)];
+    return { types, creas: creas.sort((a, b) => b.leads - a.leads), top, worst, zeroConv };
+  }
+
+  function campusRanking(rows) {
+    const crm = rows.filter((r) => r.levier === 'CRM');
+    const g = {};
+    for (const r of crm) {
+      const c = r.campus || '—';
+      if (!g[c]) g[c] = { campus: c, leads: 0, venus: 0, nonVenus: 0, confirmes: 0 };
+      g[c].leads += num(r.nbLeads); g[c].venus += num(r.nbVenus);
+      g[c].nonVenus += num(r.nbNonVenus); g[c].confirmes += num(r.nbConfirmes);
+    }
+    return Object.values(g).map((x) => ({ ...x, taux: x.leads > 0 ? x.venus / x.leads : 0 }))
+      .sort((a, b) => b.leads - a.leads);
+  }
+
+  function sourceBreakdown(rows, campusFilter) {
+    let crm = rows.filter((r) => r.levier === 'CRM');
+    if (campusFilter) crm = crm.filter((r) => r.campus === campusFilter);
+    const g = {};
+    for (const r of crm) {
+      let s = r.support || 'Autre';
+      if (/cpc/i.test(s)) s = 'Paid (CPC)';
+      if (!g[s]) g[s] = { source: s, leads: 0, venus: 0 };
+      g[s].leads += num(r.nbLeads); g[s].venus += num(r.nbVenus);
+    }
+    return Object.values(g).map((x) => ({ ...x, taux: x.leads > 0 ? x.venus / x.leads : 0 })).sort((a, b) => b.leads - a.leads);
+  }
+
+  function insights(rows) {
+    const out = [];
+    const a = aggregate(rows);
+    const sma = a.parLevier.find((x) => x.levier === 'SMA');
+    const sea = a.parLevier.find((x) => x.levier === 'SEA');
+    if (sma && sea && sea.cpl > 0 && sma.cpl > 0) {
+      if (sea.cpl < sma.cpl) {
+        const ecart = Math.round((1 - sea.cpl / sma.cpl) * 100);
+        out.push({ tone: 'good', titre: 'Le SEA convertit moins cher', texte: `CPL SEA ${eur2(sea.cpl)} contre ${eur2(sma.cpl)} en SMA — soit ${ecart}% moins cher. Arbitrer une part du budget Meta vers Google.` });
+      } else {
+        out.push({ tone: 'good', titre: 'Le SMA reste compétitif', texte: `CPL SMA ${eur2(sma.cpl)} vs ${eur2(sea.cpl)} en SEA.` });
+      }
+    }
+    const sea2 = campaignRows(rows).filter((c) => c.levier === 'SEA');
+    const lp = sea2.find((c) => /landing/i.test(c.label));
+    const site = sea2.find((c) => /site/i.test(c.label) && !/landing/i.test(c.label));
+    if (lp && site && lp.cpl > 0 && site.cpl > 0 && lp.cpl < site.cpl) {
+      out.push({ tone: 'good', titre: 'Les Landing Pages écrasent le CPL', texte: `La landing dédiée sort un CPL de ${eur2(lp.cpl)} (CVR ${pct(lp.cvr)}) contre ${eur2(site.cpl)} pour le site. Router tout le trafic payant vers la landing.` });
+    }
+    const ca = creativeAnalysis(rows);
+    if (ca.zeroConv.length) {
+      const gaspille = sum(ca.zeroConv, 'cout');
+      out.push({ tone: 'bad', titre: `${ca.zeroConv.length} créa${ca.zeroConv.length > 1 ? 's' : ''} sans conversion`, texte: `${ca.zeroConv.length} créas SMA ont généré des clics mais 0 lead — ${eur(gaspille)} de budget sans retour.` });
+    }
+    const camp = campusRanking(rows).filter((c) => c.leads >= 15);
+    if (camp.length) {
+      const low = [...camp].sort((x, y) => x.taux - y.taux)[0];
+      if (low && low.taux < 0.28) {
+        out.push({ tone: 'warn', titre: `Présence faible — ${shortCampus(low.campus)}`, texte: `Seulement ${pct(low.taux, 0)} de présence sur ${low.campus} (${low.venus}/${low.leads}). Renforcer les relances SMS/e-mail J-3.` });
+      }
+    }
+    if (ca.top[0]) {
+      out.push({ tone: 'good', titre: `Créa gagnante : ${ca.top[0].name}`, texte: `${ca.top[0].type} — ${ca.top[0].leads} leads à ${eur2(ca.top[0].cpl)} de CPL. Décliner ce format sur les prochaines campagnes.` });
+    }
+    return out;
+  }
+
+  function journalInsights(campusData, avgData) {
+    const entries = [];
+    if (campusData.tauxPresence < 0.25) {
+      entries.push({
+        tone: 'bad', date: 'Alerte', title: 'Taux de présence sous les 25 %',
+        text: `Avec ${pct(campusData.tauxPresence, 0)} de présence, ce campus est en deçà du seuil critique. Action requise : renforcer les relances J-7 et J-3 par SMS et e-mail personnalisé.`,
+        actions: ['Planifier relances', 'Voir les non-venus']
+      });
+    } else if (campusData.tauxPresence >= 0.3) {
+      entries.push({
+        tone: 'good', date: 'Objectif atteint', title: 'Taux de présence au-dessus de l\'objectif',
+        text: `${pct(campusData.tauxPresence, 0)} de présence — objectif 30 % dépassé. Capitaliser sur les sources qui convertissent le mieux pour la prochaine JPO.`,
+        actions: ['Voir les sources top']
+      });
+    } else {
+      entries.push({
+        tone: 'warn', date: 'À surveiller', title: 'Taux de présence proche du seuil',
+        text: `${pct(campusData.tauxPresence, 0)} de présence. Quelques relances ciblées pourraient faire passer ce campus au-dessus des 30 %.`,
+        actions: ['Planifier relances']
+      });
+    }
+    if (campusData.leads > avgData.avgLeads * 1.1) {
+      entries.push({
+        tone: 'good', date: 'Performance', title: 'Volume de leads supérieur à la moyenne réseau',
+        text: `Ce campus a généré ${intf(campusData.leads)} leads, soit +${Math.round((campusData.leads / avgData.avgLeads - 1) * 100)}% par rapport à la moyenne réseau. La stratégie d'acquisition CPC est efficace.`,
+        actions: ['Voir le détail sources']
+      });
+    }
+    entries.push({
+      tone: 'info', date: 'Recommandation', title: 'Préparer le brief JPO suivant',
+      text: `Sur la base des données de cette JPO, le CPL moyen réseau est ${eur2(avgData.avgCPL)}. Définissez votre budget pour la prochaine JPO avec le simulateur.`,
+      actions: ['Ouvrir le simulateur']
+    });
+    return entries;
+  }
+
+  // Anonymized network average (excluding the viewed campus)
+  function networkAvg(allRows, excludeCampus) {
+    const crm = allRows.filter((r) => r.levier === 'CRM' && r.campus !== excludeCampus);
+    const g = {};
+    for (const r of crm) {
+      const c = r.campus;
+      if (!g[c]) g[c] = { leads: 0, venus: 0 };
+      g[c].leads += num(r.nbLeads); g[c].venus += num(r.nbVenus);
+    }
+    const campuses = Object.values(g).filter((x) => x.leads > 5);
+    const avgLeads = campuses.length > 0 ? sum(campuses, 'leads') / campuses.length : 0;
+    const avgTaux = campuses.length > 0 ? campuses.reduce((s, x) => s + (x.leads > 0 ? x.venus / x.leads : 0), 0) / campuses.length : 0;
+    const paid = allRows.filter((r) => r.levier !== 'CRM');
+    const totalCout = sum(paid, 'cout'); const totalLeads = sum(paid, 'leads');
+    const avgCPL = totalLeads > 0 ? totalCout / totalLeads : 0;
+    return { avgLeads, avgTaux, avgCPL, count: campuses.length };
+  }
+
+  function shortCampus(c) { return (c || '').replace('ESG Luxe', '').trim() || 'Paris'; }
+
+  // XLSX parser (same as original)
+  const HEADER_MAP = [
+    ['temps fort','tempsFort'],['periode','periode'],['levier','levier'],['sous-levier','sousLevier'],
+    ['mois','mois'],['annee','annee'],['campaign name','campaign'],['adset name','adset'],['ad name','ad'],
+    ['type de page','typePage'],['url','url'],['impressions','impressions'],['clics','clics'],['ctr','ctr'],
+    ['cout','cout'],['cout (€)','cout'],['leads/conversions','leads'],['leads','leads'],['cpl/cpa (€)','cpl'],
+    ['cpl','cpl'],['cvr','cvr'],['cpc (€)','cpc'],['cpc','cpc'],['campus','campus'],
+    ['support campagne','support'],['support','support'],['nb leads','nbLeads'],['nb venus','nbVenus'],
+    ['nb non venus','nbNonVenus'],['nb confirmes','nbConfirmes'],['taux presence','tauxPresence'],
+  ];
+  const NUM_FIELDS = ['impressions','clics','ctr','cout','leads','cpl','cvr','cpc','nbLeads','nbVenus','nbNonVenus','nbConfirmes','tauxPresence'];
+  function normHeader(s) { return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim(); }
+  function fieldFor(h) { const nh=normHeader(h); for (const [k,v] of HEADER_MAP) if(nh===k) return v; return null; }
+  async function inflateRaw(bytes) {
+    const ds=new DecompressionStream('deflate-raw');
+    const stream=new Blob([bytes]).stream().pipeThrough(ds);
+    return new Uint8Array(await new Response(stream).arrayBuffer());
+  }
+  function colToIdx(c){let n=0;for(const ch of c)n=n*26+(ch.charCodeAt(0)-64);return n-1;}
+  function decodeEntities(s){return(s||'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&#(\d+);/g,(_,n)=>String.fromCharCode(n));}
+  async function parseXlsx(arrayBuffer) {
+    const buf=new Uint8Array(arrayBuffer); const dv=new DataView(buf.buffer);
+    const u16=(o)=>dv.getUint16(o,true),u32=(o)=>dv.getUint32(o,true);
+    let eocd=-1; for(let i=buf.length-22;i>=0;i--){if(u32(i)===0x06054b50){eocd=i;break;}}
+    if(eocd<0)throw new Error('Fichier .xlsx invalide');
+    const cdCount=u16(eocd+10);let cdOff=u32(eocd+16); const files={};let p=cdOff;
+    for(let i=0;i<cdCount;i++){
+      const method=u16(p+10),compSize=u32(p+20),nameLen=u16(p+28),extraLen=u16(p+30),commentLen=u16(p+32),localOff=u32(p+42);
+      const name=new TextDecoder().decode(buf.subarray(p+46,p+46+nameLen));
+      const lNameLen=u16(localOff+26),lExtraLen=u16(localOff+28);
+      const dataStart=localOff+30+lNameLen+lExtraLen;
+      files[name]={method,data:buf.subarray(dataStart,dataStart+compSize)};
+      p+=46+nameLen+extraLen+commentLen;
+    }
+    async function getText(name){const f=files[name];if(!f)return null;return new TextDecoder().decode(f.method===0?f.data:await inflateRaw(f.data));}
+    const sharedXml=await getText('xl/sharedStrings.xml'); const sst=[];
+    if(sharedXml){const re=/<si>([\s\S]*?)<\/si>/g;let m;while((m=re.exec(sharedXml))){const texts=[...m[1].matchAll(/<t[^>]*>([\s\S]*?)<\/t>/g)].map((x)=>x[1]);sst.push(decodeEntities(texts.join('')));}}
+    let sheetName='xl/worksheets/sheet1.xml';
+    if(!files[sheetName])sheetName=Object.keys(files).find((n)=>/xl\/worksheets\/sheet\d+\.xml$/.test(n));
+    const sheet=await getText(sheetName);
+    const rowRe=/<row[^>]*r="(\d+)"[^>]*>([\s\S]*?)<\/row>/g;let rm;const grid=[];
+    while((rm=rowRe.exec(sheet))){
+      const cells={};const cellRe=/<c r="([A-Z]+)\d+"(?:[^>]*t="(\w+)")?[^>]*>(?:<v>([\s\S]*?)<\/v>|<is><t[^>]*>([\s\S]*?)<\/t><\/is>)?<\/c>/g;let cm;
+      while((cm=cellRe.exec(rm[2]))){let col=cm[1],type=cm[2],val=cm[3];const inline=cm[4];
+        if(inline!==undefined)val=decodeEntities(inline);else if(type==='s')val=sst[parseInt(val)];
+        cells[colToIdx(col)]=val;}
+      grid.push(cells);
+    }
+    let headerIdx=-1;
+    for(let i=0;i<Math.min(grid.length,8);i++){const vals=Object.values(grid[i]).map(normHeader);if(vals.includes('levier')&&vals.some((v)=>v.includes('campaign'))){headerIdx=i;break;}}
+    if(headerIdx<0)throw new Error('En-têtes introuvables');
+    const colFields={};for(const[ci,v]of Object.entries(grid[headerIdx])){const f=fieldFor(v);if(f)colFields[ci]=f;}
+    const rows=[];
+    for(let i=headerIdx+1;i<grid.length;i++){
+      const o={};for(const[ci,f]of Object.entries(colFields)){let v=grid[i][ci];if(v===undefined)v=null;o[f]=NUM_FIELDS.includes(f)?(v==null||v===''?null:Number(v)):v;}
+      if(!o.levier&&!o.campaign)continue; rows.push(o);
+    }
+    if(!rows.length)throw new Error('Aucune ligne de données trouvée');
+    return rows;
+  }
+
+  window.JPO = { num, eur, eur2, pct, intf, sum, LEVIERS, LEVIER_LABEL, creativeType, creativeName,
+    aggregate, campaignRows, creativeAnalysis, campusRanking, sourceBreakdown, insights,
+    journalInsights, networkAvg, shortCampus, parseXlsx };
+})();
+  </script>
+  <!-- CHARTS -->
+  <script type="text/babel">
+(function () {
+const { useState, useRef, useEffect } = React;
+const fmtFR = (n, d=0) => Number(n||0).toLocaleString('fr-FR', { maximumFractionDigits: d });
+
+function KpiCard({ label, value, sub, tone='neutral', icon, iconColor, chips }) {
+  const toneVar = tone==='good'?'var(--good)':tone==='bad'?'var(--bad)':tone==='warn'?'var(--warn)':'var(--ink)';
+  const ic = iconColor||'var(--accent)';
+  return (
+    <div className="kpi">
+      <div className="kpi-top">
+        <span className="kpi-label">{label}</span>
+        {icon?<span className="icon-pastille" style={{background:`color-mix(in srgb, ${ic} 15%, transparent)`,color:ic}}>{icon}</span>:null}
+      </div>
+      <div className="kpi-value" style={{color:tone==='neutral'?'var(--ink)':toneVar}}>{value}</div>
+      {chips&&chips.length?(
+        <div className="substats">{chips.map((c,i)=>(
+          <span className="substat" key={i}><span className="substat-dot" style={{background:c.color||'var(--muted)'}} /><em>{c.v}</em>{c.k}</span>
+        ))}</div>
+      ):(
+        <div className="kpi-foot">
+          {tone!=='neutral'?<span className="dot" style={{background:toneVar}} />:null}
+          <span className="kpi-sub" style={{color:tone==='neutral'?'var(--muted)':toneVar}}>{sub}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TickGauge({ value, size=188, ticks=56, sub, on='#ffffff', off='rgba(255,255,255,.26)', center, textColor='#ffffff' }) {
+  const cx=size/2,cy=size/2,rOuter=size/2-6,rInner=rOuter-15;
+  const v=Math.max(0,Math.min(1,value)); const active=Math.round(v*ticks);
+  const lines=[];
+  for(let i=0;i<ticks;i++){const ang=(-90+(i/ticks)*360)*Math.PI/180;lines.push(<line key={i} x1={cx+rInner*Math.cos(ang)} y1={cy+rInner*Math.sin(ang)} x2={cx+rOuter*Math.cos(ang)} y2={cy+rOuter*Math.sin(ang)} stroke={i<active?on:off} strokeWidth="2.4" strokeLinecap="round"/>);}
+  return (<svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>{lines}
+    <text x={cx} y={cy+2} textAnchor="middle" style={{fill:textColor,fontSize:34,fontWeight:800,fontFamily:'var(--sans)'}}>{center!=null?center:Math.round(v*100)+'%'}</text>
+    {sub?<text x={cx} y={cy+24} textAnchor="middle" style={{fill:textColor,opacity:.72,fontSize:12,fontWeight:600,fontFamily:'var(--sans)'}}>{sub}</text>:null}
+  </svg>);
+}
+
+function SegBar({ data, total }) {
+  const s = total||data.reduce((x,d)=>x+d.value,0)||1;
+  return (<div className="segbar">
+    <div className="segbar-marks">{data.map((d,i)=><span className="segbar-mark" key={i} style={{width:(d.value/s*100)+'%'}}>{Math.round(d.value/s*100)}%</span>)}</div>
+    <div className="segbar-track">{data.map((d,i)=><div className="segbar-seg" key={i} style={{width:(d.value/s*100)+'%',background:d.color}} title={d.label}/>)}</div>
+    <div className="segbar-legend">{data.map((d,i)=><span className="segbar-li" key={i}><span className="legend-dot" style={{background:d.color}}/>{d.label}<em>{d.fmt!=null?d.fmt:d.value}</em></span>)}</div>
+  </div>);
+}
+
+function FunnelChart({ data }) {
+  const max=Math.max(...data.map((d)=>d.value),1);
+  const colors=['var(--c1)','var(--c2)','var(--c3)','var(--accent)'];
+  return (<div className="funnel">{data.map((d,i)=>{
+    const w=Math.max((d.value/max)*100,3); const prev=i>0?data[i-1].value:null;
+    const conv=prev?(d.value/prev)*100:null;
+    return (<div className="funnel-row" key={d.label}>
+      <div className="funnel-meta"><span className="funnel-label">{d.label}</span><span className="funnel-val">{fmtFR(d.value)}</span></div>
+      <div className="funnel-track">
+        <div className="funnel-bar" style={{width:w+'%',background:colors[i%colors.length]}}/>
+        {conv!=null?<span className="funnel-conv">{conv.toFixed(conv<10?1:0)}%</span>:null}
+      </div>
+    </div>);
+  })}</div>);
+}
+
+function HBars({ rows, format=(v)=>fmtFR(v), accessor=(r)=>r.value, label=(r)=>r.label, color, maxRows }) {
+  const data=maxRows?rows.slice(0,maxRows):rows;
+  const max=Math.max(...data.map(accessor),1);
+  return (<div className="hbars">{data.map((r,i)=>{
+    const v=accessor(r); const w=Math.max((v/max)*100,1.5);
+    const c=typeof color==='function'?color(r):(color||'var(--accent)');
+    return (<div className="hbar-row" key={i}>
+      <span className="hbar-label" title={label(r)}>{label(r)}</span>
+      <div className="hbar-track"><div className="hbar-fill" style={{width:w+'%',background:c}}/></div>
+      <span className="hbar-val">{format(v)}</span>
+    </div>);
+  })}</div>);
+}
+
+function Donut({ data, size=180, thickness=26, centerTop, centerSub }) {
+  const total=data.reduce((s,d)=>s+d.value,0)||1;
+  const r=size/2-thickness/2-2; const c=2*Math.PI*r; let acc=0;
+  return (<div className="donut-wrap"><svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+    <g transform={`rotate(-90 ${size/2} ${size/2})`}>
+      {data.map((d,i)=>{const frac=d.value/total;const dash=c*frac;
+        const el=<circle key={i} cx={size/2} cy={size/2} r={r} fill="none" stroke={d.color} strokeWidth={thickness} strokeDasharray={`${dash} ${c-dash}`} strokeDashoffset={-acc}/>;
+        acc+=dash; return el;})}
+    </g>
+    {centerTop?<text x={size/2} y={size/2-2} textAnchor="middle" className="gauge-v" style={{fontSize:26}}>{centerTop}</text>:null}
+    {centerSub?<text x={size/2} y={size/2+18} textAnchor="middle" className="gauge-l">{centerSub}</text>:null}
+  </svg></div>);
+}
+
+function GaugeSVG({ value, size=140, color='var(--accent)' }) {
+  const r=size/2-12; const circ=2*Math.PI*r; const v=Math.max(0,Math.min(1,value));
+  return (<svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+    <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="var(--line)" strokeWidth="10"/>
+    <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth="10" strokeLinecap="round"
+      strokeDasharray={`${circ*v} ${circ}`} transform={`rotate(-90 ${size/2} ${size/2})`} style={{transition:'stroke-dasharray .6s ease'}}/>
+    <text x={size/2} y={size/2+5} textAnchor="middle" style={{fill:'var(--ink)',fontSize:22,fontWeight:800,fontFamily:'var(--sans)',fontVariantNumeric:'tabular-nums'}}>{Math.round(v*100)}%</text>
+  </svg>);
+}
+
+Object.assign(window, { KpiCard, TickGauge, SegBar, FunnelChart, HBars, Donut, GaugeSVG, fmtFR });
+})();
+  </script>
+
+  <!-- VIEWS ENRICHIS v2 -->
+  <script type="text/babel">
+(function () {
+const { useState, useMemo, useEffect, useRef } = React;
+const J = window.JPO;
+const levierColor = (l) => l==='SMA'?'var(--c1)':l==='SEA'?'var(--c2)':'var(--c3)';
+const typeColor = (t) => t==='Vidéo'?'var(--c1)':t==='Statique'?'var(--c4)':'var(--c2)';
+
+function Ico({ d, size=16 }) {
+  return <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d={d}/></svg>;
+}
+const ICONS = {
+  leads: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm13 10v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
+  euro: 'M15 7a5 5 0 1 0 0 10M5 10h7M5 14h6',
+  tag: 'M20.6 13.4 12 22l-9-9V3h10l7.6 7.6a2 2 0 0 1 0 2.8ZM7.5 7.5h.01',
+  check: 'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11',
+  map: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z M12 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z',
+  chart: 'M4 19V5m0 14h16M8 19v-6m4 6V9m4 10v-8',
+  star: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z',
+  device: 'M12 18h.01M8 21h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z',
+  desktop: 'M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16',
+  book: 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z',
+  sim: 'M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v4m0 0H3m6 0h12M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7',
+  img: 'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm7 12-3-3-4 5h14l-4-5-3 3Z',
+  alert: 'M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z',
+  bell: 'M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0',
+  ticket: 'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2',
+  close: 'M18 6 6 18M6 6l12 12',
+  plus: 'M12 5v14M5 12h14',
+  comment: 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
+  calendar: 'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z',
+  clock: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm0-6v-4l3-3',
+};
+
+// ===== DONNÉES N-1 (Year-over-Year simulées) =====
+const YOY_DATA = {
+  leads: 892, coutTotal: 14200, cplMoyen: 15.91, tauxPresence: 0.26,
+  impressions: 312000, clics: 9400, venus: 232,
+};
+
+// ===== RETRO PLANNING =====
+const RETRO_PLANNING = [
+  { date: '15 Oct 2025', label: 'J-60', title: 'Brief créatifs SMA/SEA', desc: 'Validation des visuels, messages clés et landing pages. Brief envoyé aux équipes agence.', team: 'Market', status: 'past' },
+  { date: '1 Nov 2025', label: 'J-42', title: 'Lancement campagnes Meta', desc: 'Mise en ligne des premières campagnes SMA. Phase de chauffe audiences.', team: 'Market', status: 'past' },
+  { date: '10 Nov 2025', label: 'J-33', title: 'Kick-off relances CRM', desc: 'Envoi email + SMS wave 1 aux bases existantes. Segmentation par campus.', team: 'Com', status: 'past' },
+  { date: '28 Nov 2025', label: 'J-15', title: 'Optimisation mid-flight', desc: 'Analyse des 4 premières semaines. Arbitrage budgétaire SMA/SEA. Pause des créas sous-performantes.', team: 'Market', status: 'past' },
+  { date: '6 Déc 2025', label: 'J-7', title: 'Relances J-7 (SMS + Email)', desc: 'Envoi wave 2 aux inscrits non-confirmés. Personnalisation par campus. Objectif : +8 pp de taux présence.', team: 'Com', status: 'today' },
+  { date: '10 Déc 2025', label: 'J-3', title: 'Relances J-3 finales', desc: 'Dernier push SMS pour les non-confirmés. Message urgence + guide pratique accès campus.', team: 'Com', status: 'upcoming', urgent: true },
+  { date: '12 Déc 2025', label: 'J-1', title: 'Couverture J-1 réseaux sociaux', desc: 'Stories, posts organique sur tous réseaux. Boost stories 48h. Hashtag officiel.', team: 'Com', status: 'upcoming' },
+  { date: '13 Déc 2025', label: 'Jour J', title: 'JPO ESG Luxe — Tous campus', desc: 'Accueil visiteurs 9h–17h. Live social. Bilan photographique. Collecte feedbacks.', team: 'Market', status: 'upcoming' },
+  { date: '20 Déc 2025', label: 'J+7', title: 'Bilan post-JPO', desc: 'Rapport complet perf. Debriefs campus. Préparation plan JPO printemps.', team: 'Market', status: 'upcoming' },
+];
+
+// ===== COMMENTAIRES DEMO =====
+const INIT_COMMENTS = {
+  dashboard: [
+    { id:1, author:'Sophie M.', team:'Market', color:'var(--c1)', text:'CPL SMA en hausse vs N-1, il faut revoir le brief créa pour la prochaine JPO.', time:'Il y a 2h', avatar:'SM' },
+    { id:2, author:'Thomas D.', team:'Com', color:'var(--c4)', text:'Les relances J-7 sont prêtes. On attend validation de la segmentation.', time:'Il y a 5h', avatar:'TD' },
+  ],
+  campagnes: [
+    { id:1, author:'Léa B.', team:'Market', color:'var(--c2)', text:'La landing page performe 2x mieux que le site — confirmer le budget pour la prochaine JPO.', time:'Hier', avatar:'LB' },
+  ],
+  creatifs: [],
+  campus: [
+    { id:1, author:'Marc A.', team:'Com', color:'var(--c3)', text:'Campus Paris 9 en dessous des objectifs — SMS de rattrapage envoyé ce matin.', time:'Il y a 1h', avatar:'MA' },
+  ],
+};
+
+// ===== TICKETS DEMO =====
+const INIT_TICKETS = [
+  { id:1, title:'Révision brief créatifs vidéo SMA', team:'Market', priority:'urgent', status:'open', statusColor:'var(--bad)', desc:'Les vidéos 15s ont un CPL 40% plus élevé que prévu. Revoir le message et le CTA pour la prochaine campagne.', date:'5 Déc 2025', author:'Sophie M.' },
+  { id:2, title:'Segmentation SMS relances J-3', team:'Com', priority:'urgent', status:'open', statusColor:'var(--bad)', desc:'Préparer 3 segments : confirmés, non-confirmés actifs, non-confirmés froids. Message différencié par segment.', date:'4 Déc 2025', author:'Thomas D.' },
+  { id:3, title:'Brief landing page JPO Printemps', team:'Market', priority:'normal', status:'in-progress', statusColor:'var(--warn)', desc:'Démarrer le brief pour la JPO Mars. Base sur learnings décembre. A/B test 2 versions.', date:'3 Déc 2025', author:'Léa B.' },
+  { id:4, title:'Rapport post-JPO (template)', team:'Com', priority:'low', status:'open', statusColor:'var(--muted)', desc:'Préparer le template de bilan pour les directeurs campus. Inclure comparaison N-1.', date:'2 Déc 2025', author:'Marc A.' },
+  { id:5, title:'Optimisation SEA desktop CVR', team:'Market', priority:'normal', status:'done', statusColor:'var(--good)', desc:'Le desktop a un CVR 2x inférieur au mobile. Tester des landing adaptées desktop.', date:'28 Nov 2025', author:'Sophie M.' },
+];
+
+// ===== NOTIFICATIONS =====
+function buildNotifications(retroPlanning) {
+  return [
+    { id:1, tone:'bad', icon:'🔴', title:'Relances J-3 dans 3 jours', text:'L\'étape "Relances J-3 finales" est imminente. Les SMS doivent être validés avant le 9 décembre.', time:'Il y a 30 min', unread:true },
+    { id:2, tone:'warn', icon:'🟡', title:'Ticket urgent non traité', text:'"Révision brief créatifs vidéo SMA" ouvert depuis 1 jour sans assignation.', time:'Il y a 1h', unread:true },
+    { id:3, tone:'good', icon:'🟢', title:'Objectif CPL atteint (SEA)', text:'Le CPL SEA est de 12,40 € — en dessous de l\'objectif de 25 €. Bonne performance.', time:'Il y a 3h', unread:true },
+    { id:4, tone:'warn', icon:'🟡', title:'Taux présence sous objectif', text:'3 campus sont en dessous de 25% de taux de présence. Relances prioritaires recommandées.', time:'Il y a 4h', unread:false },
+    { id:5, tone:'bad', icon:'🔴', title:'Étape J-7 : action requise', text:'L\'envoi des SMS J-7 est prévu aujourd\'hui. Validation en attente de Thomas D. (Com).', time:'Ce matin', unread:false },
+    { id:6, tone:'good', icon:'🟢', title:'Campagne SMA optimisée', text:'2 créas sans conversion suspendues. Budget réalloué vers Top 3 créas.', time:'Hier', unread:false },
+  ];
+}
+
+// ===== YOY BADGE COMPONENT =====
+function YoYBadge({ current, previous, format, inverted=false }) {
+  if (!previous || previous === 0) return null;
+  const delta = ((current - previous) / previous) * 100;
+  const isPositive = inverted ? delta < 0 : delta > 0;
+  const cls = Math.abs(delta) < 1 ? 'eq' : isPositive ? 'up' : 'down';
+  const sign = delta > 0 ? '+' : '';
+  const arrow = delta > 0 ? '▲' : delta < 0 ? '▼' : '=';
+  return (
+    <span className={`yoy-badge ${cls}`}>{arrow} {sign}{delta.toFixed(1)}% vs N-1</span>
+  );
+}
+
+// ===== KPI CARD WITH YOY =====
+function KpiCardYoY({ label, value, yoyValue, yoyCurrent, yoyPrev, inverted, sub, tone='neutral', icon, iconColor, chips }) {
+  const toneVar = tone==='good'?'var(--good)':tone==='bad'?'var(--bad)':tone==='warn'?'var(--warn)':'var(--ink)';
+  const ic = iconColor||'var(--accent)';
+  return (
+    <div className="kpi">
+      <div className="kpi-top">
+        <span className="kpi-label">{label}</span>
+        {icon?<span className="icon-pastille" style={{background:`color-mix(in srgb, ${ic} 15%, transparent)`,color:ic}}>{icon}</span>:null}
+      </div>
+      <div className="kpi-value" style={{color:tone==='neutral'?'var(--ink)':toneVar}}>{value}</div>
+      {chips&&chips.length?(
+        <div className="substats">{chips.map((c,i)=>(
+          <span className="substat" key={i}><span className="substat-dot" style={{background:c.color||'var(--muted)'}} /><em>{c.v}</em>{c.k}</span>
+        ))}</div>
+      ):(
+        <div className="kpi-foot">
+          {tone!=='neutral'?<span className="dot" style={{background:toneVar}} />:null}
+          <span className="kpi-sub" style={{color:tone==='neutral'?'var(--muted)':toneVar}}>{sub}</span>
+        </div>
+      )}
+      {yoyCurrent != null && yoyPrev != null && (
+        <div className="kpi-yoy">
+          <span className="kpi-yoy-label">N-1 : {yoyValue}</span>
+          <YoYBadge current={yoyCurrent} previous={yoyPrev} inverted={inverted}/>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SectionCard({ title, sub, right, children, className='', span, action, sectionKey, allComments, onAddComment }) {
+  const [showComments, setShowComments] = useState(false);
+  const [commentText, setCommentText] = useState('');
+  const comments = (allComments && sectionKey) ? (allComments[sectionKey]||[]) : [];
+  return (
+    <section className={`card ${className}`} style={span?{gridColumn:`span ${span}`}:null}>
+      {(title||right)?(<header className="card-head">
+        <div><h3 className="card-title">{title}</h3>{sub?<p className="card-sub">{sub}</p>:null}</div>
+        {right||(action?<span className="card-action"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>:null)}
+      </header>):null}
+      {children}
+      {sectionKey && (
+        <div className="comment-section">
+          <button className="comment-toggle" onClick={()=>setShowComments(s=>!s)}>
+            <Ico d={ICONS.comment} size={14}/>
+            Commentaires
+            <span className="comment-count-pill">{comments.length}</span>
+            <span style={{marginLeft:4,fontSize:11,opacity:.7}}>{showComments?'▲':'▼'}</span>
+          </button>
+          {showComments && (
+            <>
+              <div className="comments-list">
+                {comments.length === 0 && <p style={{margin:0,fontSize:12,color:'var(--muted)',fontStyle:'italic'}}>Aucun commentaire pour le moment.</p>}
+                {comments.map(c=>(
+                  <div className="comment-item" key={c.id}>
+                    <div className="comment-avatar" style={{background:c.color||'var(--accent)'}}>{c.avatar}</div>
+                    <div className="comment-bubble">
+                      <div className="comment-author" style={{color:c.color||'var(--ink)'}}>{c.author} <span style={{fontWeight:600,opacity:.7,fontSize:10.5}}>· {c.team}</span></div>
+                      <div className="comment-text">{c.text}</div>
+                      <div className="comment-time">{c.time}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="comment-input-row">
+                <textarea
+                  className="comment-input"
+                  placeholder="Ajouter un commentaire..."
+                  value={commentText}
+                  onChange={e=>setCommentText(e.target.value)}
+                  onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(commentText.trim()&&onAddComment){onAddComment(sectionKey,commentText.trim());setCommentText('');}}}}
+                  rows={1}
+                />
+                <button className="comment-send" onClick={()=>{if(commentText.trim()&&onAddComment){onAddComment(sectionKey,commentText.trim());setCommentText('');}}}>Envoyer</button>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function Legend({ items }) {
+  return (<div className="legend">{items.map((it)=>(
+    <span className="legend-item" key={it.label}><span className="legend-dot" style={{background:it.color}}/>{it.label}</span>
+  ))}</div>);
+}
+
+// ===== TICKET PANEL =====
+function TicketPanel({ open, onClose, tickets, onAddTicket }) {
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState({ title:'', team:'Market', priority:'normal', desc:'' });
+  const openTickets = tickets.filter(t=>t.status!=='done');
+  const doneTickets = tickets.filter(t=>t.status==='done');
+  const statusLabel = { open:'Ouvert', 'in-progress':'En cours', done:'Terminé' };
+  const statusColors = { open:'var(--bad)', 'in-progress':'var(--warn)', done:'var(--good)' };
+
+  return (
+    <>
+      <div className={`overlay-bg ${open?'visible':''}`} onClick={onClose}/>
+      <div className={`ticket-panel ${open?'open':''}`}>
+        <div className="ticket-panel-head">
+          <span className="ticket-panel-title">🎫 Ticketing Market / Com</span>
+          <div style={{display:'flex',gap:8}}>
+            <button onClick={()=>setShowForm(s=>!s)} style={{padding:'7px 13px',border:'1px solid var(--line)',borderRadius:10,background:showForm?'var(--accent)':'var(--card)',color:showForm?'#fff':'var(--ink)',fontSize:12,fontWeight:800,cursor:'pointer',fontFamily:'var(--sans)'}}>
+              {showForm?'Annuler':'+ Nouveau'}
+            </button>
+            <button onClick={onClose} style={{width:32,height:32,border:'1px solid var(--line)',borderRadius:8,background:'var(--card)',cursor:'pointer',display:'grid',placeItems:'center'}}>
+              <Ico d={ICONS.close} size={14}/>
+            </button>
+          </div>
+        </div>
+        <div className="ticket-panel-body">
+          {showForm && (
+            <div className="ticket-form">
+              <div className="ticket-form-title">Nouveau ticket</div>
+              <input className="ticket-input" placeholder="Titre du ticket" value={form.title} onChange={e=>setForm(f=>({...f,title:e.target.value}))}/>
+              <textarea className="ticket-input ticket-textarea" placeholder="Description..." value={form.desc} onChange={e=>setForm(f=>({...f,desc:e.target.value}))}/>
+              <div className="ticket-form-row">
+                <select className="ticket-input" value={form.team} onChange={e=>setForm(f=>({...f,team:e.target.value}))}>
+                  <option>Market</option><option>Com</option>
+                </select>
+                <select className="ticket-input" value={form.priority} onChange={e=>setForm(f=>({...f,priority:e.target.value}))}>
+                  <option value="urgent">🔴 Urgent</option>
+                  <option value="normal">🟡 Normal</option>
+                  <option value="low">⚪ Faible</option>
+                </select>
+              </div>
+              <button className="ticket-submit" onClick={()=>{
+                if(!form.title.trim())return;
+                onAddTicket({...form,id:Date.now(),status:'open',statusColor:statusColors['open'],date:'Aujourd\'hui',author:'Vous'});
+                setForm({title:'',team:'Market',priority:'normal',desc:''});
+                setShowForm(false);
+              }}>Créer le ticket</button>
+            </div>
+          )}
+
+          {openTickets.length > 0 && (
+            <>
+              <div style={{fontSize:11,fontWeight:800,color:'var(--muted)',textTransform:'uppercase',letterSpacing:'.06em',padding:'4px 2px'}}>En cours & ouverts ({openTickets.length})</div>
+              {openTickets.map(t=>(
+                <div className="ticket-card" key={t.id}>
+                  <div className="ticket-card-head">
+                    <span className="ticket-title-text">{t.title}</span>
+                    <span className="ticket-status-dot" style={{background:statusColors[t.status]||t.statusColor}}/>
+                  </div>
+                  <div className="ticket-meta">
+                    <span className={`ticket-tag ${t.team.toLowerCase()}`}>{t.team}</span>
+                    <span className={`ticket-tag ${t.priority}`}>{t.priority==='urgent'?'🔴 Urgent':t.priority==='normal'?'🟡 Normal':'⚪ Faible'}</span>
+                    <span style={{fontSize:11,color:'var(--muted)',fontWeight:600}}>{statusLabel[t.status]||t.status}</span>
+                  </div>
+                  {t.desc&&<div className="ticket-desc">{t.desc}</div>}
+                  <div className="ticket-footer">
+                    <span>✏️ {t.author}</span><span>📅 {t.date}</span>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+          {doneTickets.length > 0 && (
+            <>
+              <div style={{fontSize:11,fontWeight:800,color:'var(--muted)',textTransform:'uppercase',letterSpacing:'.06em',padding:'12px 2px 4px'}}>Terminés ({doneTickets.length})</div>
+              {doneTickets.map(t=>(
+                <div className="ticket-card" key={t.id} style={{opacity:.7}}>
+                  <div className="ticket-card-head">
+                    <span className="ticket-title-text" style={{textDecoration:'line-through'}}>{t.title}</span>
+                    <span className="ticket-status-dot" style={{background:'var(--good)'}}/>
+                  </div>
+                  <div className="ticket-meta">
+                    <span className={`ticket-tag ${t.team.toLowerCase()}`}>{t.team}</span>
+                    <span style={{fontSize:11,color:'var(--good)',fontWeight:800}}>✓ Terminé</span>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ===== NOTIFICATION PANEL =====
+function NotifPanel({ open, onClose, notifs, onMarkRead }) {
+  const unread = notifs.filter(n=>n.unread).length;
+  const toneColors = { bad:'var(--bad)', warn:'var(--warn)', good:'var(--good)', info:'var(--accent)' };
+  return (
+    <>
+      <div className={`overlay-bg ${open?'visible':''}`} onClick={onClose}/>
+      <div className={`notif-panel ${open?'open':''}`}>
+        <div className="notif-panel-head">
+          <div>
+            <span style={{fontSize:17,fontWeight:800,letterSpacing:-0.02}}>🔔 Notifications</span>
+            {unread>0&&<span style={{marginLeft:8,fontSize:11,padding:'2px 8px',borderRadius:8,background:'var(--bad)',color:'#fff',fontWeight:800}}>{unread} nouvelles</span>}
+          </div>
+          <div style={{display:'flex',gap:8}}>
+            {unread>0&&<button onClick={onMarkRead} style={{padding:'6px 12px',border:'1px solid var(--line)',borderRadius:9,background:'var(--card)',fontSize:11.5,fontWeight:800,cursor:'pointer',fontFamily:'var(--sans)',color:'var(--muted)'}}>Tout lire</button>}
+            <button onClick={onClose} style={{width:32,height:32,border:'1px solid var(--line)',borderRadius:8,background:'var(--card)',cursor:'pointer',display:'grid',placeItems:'center'}}><Ico d={ICONS.close} size={14}/></button>
+          </div>
+        </div>
+        <div className="notif-panel-body">
+          {notifs.map(n=>(
+            <div className={`notif-item ${n.unread?'unread':''} ${n.tone}`} key={n.id}>
+              <div className="notif-icon" style={{background:`color-mix(in srgb,${toneColors[n.tone]} 15%,transparent)`}}>{n.icon}</div>
+              <div>
+                <div className="notif-title">{n.title}{n.unread&&<span className="notif-dot"/>}</div>
+                <div className="notif-text">{n.text}</div>
+                <div className="notif-time">{n.time}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ===== RETRO PLANNING VIEW =====
+function RetroPlanningView({ comments, onAddComment }) {
+  return (
+    <SectionCard title="Rétro planning JPO" sub="Chronologie des actions — Dec 2025" sectionKey="retro" allComments={comments} onAddComment={onAddComment}>
+      <div className="retro-timeline">
+        {RETRO_PLANNING.map((item, i) => {
+          const cls = item.urgent ? 'urgent' : item.status;
+          return (
+            <div className={`retro-item ${cls}`} key={i}>
+              <div className="retro-date-col">
+                <div className="retro-date-label">{item.label}</div>
+                <div className="retro-date-sub">{item.date}</div>
+              </div>
+              <div className="retro-line-col">
+                <div className="retro-dot"/>
+                <div className="retro-connector"/>
+              </div>
+              <div className="retro-body">
+                <div className="retro-title">{item.title}</div>
+                <div className="retro-desc">{item.desc}</div>
+                <div className="retro-tags">
+                  <span className="retro-tag" style={{background:`color-mix(in srgb,${item.team==='Market'?'var(--c1)':'var(--c4)'} 13%,transparent)`,color:item.team==='Market'?'var(--c1)':'var(--c4)',fontWeight:800,fontSize:10.5}}>{item.team}</span>
+                  {item.status==='past'&&<span className="retro-tag" style={{background:'color-mix(in srgb,var(--good) 12%,transparent)',color:'var(--good)',fontWeight:800,fontSize:10.5}}>✓ Terminé</span>}
+                  {item.status==='today'&&<span className="retro-tag" style={{background:'color-mix(in srgb,var(--accent) 12%,transparent)',color:'var(--accent)',fontWeight:800,fontSize:10.5}}>● Aujourd'hui</span>}
+                  {item.urgent&&<span className="retro-tag" style={{background:'color-mix(in srgb,var(--bad) 12%,transparent)',color:'var(--bad)',fontWeight:800,fontSize:10.5}}>🔴 Urgent</span>}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </SectionCard>
+  );
+}
+
+/* ===== DASHBOARD GLOBAL ===== */
+function DashboardView({ rows, tweaks, comments, onAddComment, tickets }) {
+  const a = useMemo(()=>J.aggregate(rows),[rows]);
+  const ins = useMemo(()=>J.insights(rows),[rows]);
+  const sources = useMemo(()=>J.sourceBreakdown(rows),[rows]);
+  const showInsights = tweaks.showInsights !== false;
+  const cplTone = a.cplMoyen<=25?'good':a.cplMoyen>=40?'bad':'warn';
+  const presTone = a.tauxPresence>=0.3?'good':a.tauxPresence<=0.2?'bad':'warn';
+  const paidLeviers = a.parLevier.filter((l)=>l.levier!=='CRM');
+  const openTickets = tickets.filter(t=>t.status!=='done');
+  return (
+    <div className="view">
+
+      {/* YoY KPI Row */}
+      <div className="kpi-row">
+        <KpiCardYoY label="Leads générés" value={J.intf(a.leadsTotal)} icon={<Ico d={ICONS.leads}/>} iconColor="var(--c1)"
+          chips={[{v:J.intf(a.venus),k:'présents',color:'var(--good)'},{v:a.confirmes,k:'confirmés',color:'var(--c4)'}]}
+          yoyValue={J.intf(YOY_DATA.leads)} yoyCurrent={a.leadsTotal} yoyPrev={YOY_DATA.leads}/>
+        <KpiCardYoY label="Coût média total" value={J.eur(a.coutTotal)} icon={<Ico d={ICONS.euro}/>} iconColor="var(--c3)"
+          chips={[{v:J.eur(a.parLevier[0].cout),k:'SMA',color:'var(--c1)'},{v:J.eur(a.parLevier[1].cout),k:'SEA',color:'var(--c2)'}]}
+          yoyValue={J.eur(YOY_DATA.coutTotal)} yoyCurrent={a.coutTotal} yoyPrev={YOY_DATA.coutTotal} inverted={true}/>
+        <KpiCardYoY label="CPL moyen" value={J.eur2(a.cplMoyen)} tone={cplTone} icon={<Ico d={ICONS.tag}/>} iconColor="var(--c5)"
+          sub={cplTone==='good'?'Sous l\'objectif de 25 €':cplTone==='warn'?'Proche du plafond':'Au-dessus de l\'objectif'}
+          yoyValue={J.eur2(YOY_DATA.cplMoyen)} yoyCurrent={a.cplMoyen} yoyPrev={YOY_DATA.cplMoyen} inverted={true}/>
+        <KpiCardYoY label="Taux de présence" value={J.pct(a.tauxPresence,0)} tone={presTone} icon={<Ico d={ICONS.check}/>} iconColor="var(--c2)"
+          sub={`${J.intf(a.venus)} présents sur ${J.intf(a.leadsTotal)} leads`}
+          yoyValue={J.pct(YOY_DATA.tauxPresence,0)} yoyCurrent={a.tauxPresence} yoyPrev={YOY_DATA.tauxPresence}/>
+      </div>
+
+      {/* Résumé tickets ouverts */}
+      {openTickets.length>0&&(
+        <div style={{background:'color-mix(in srgb,var(--warn) 8%,var(--card))',border:'1px solid color-mix(in srgb,var(--warn) 20%,var(--line))',borderRadius:16,padding:'14px 20px',display:'flex',alignItems:'center',justifyContent:'space-between',gap:14}}>
+          <div style={{display:'flex',alignItems:'center',gap:10}}>
+            <span style={{fontSize:18}}>🎫</span>
+            <div>
+              <div style={{fontSize:13,fontWeight:800}}>{openTickets.length} ticket{openTickets.length>1?'s':''} en cours</div>
+              <div style={{fontSize:12,color:'var(--muted)',fontWeight:500}}>
+                {openTickets.filter(t=>t.priority==='urgent').length} urgent{openTickets.filter(t=>t.priority==='urgent').length>1?'s':''} · {openTickets.map(t=>t.team).filter((v,i,a)=>a.indexOf(v)===i).join(' & ')}
+              </div>
+            </div>
+          </div>
+          <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+            {openTickets.filter(t=>t.priority==='urgent').slice(0,2).map(t=>(
+              <span key={t.id} style={{padding:'4px 12px',background:'color-mix(in srgb,var(--bad) 12%,var(--card))',color:'var(--bad)',borderRadius:8,fontSize:11.5,fontWeight:800,border:'1px solid color-mix(in srgb,var(--bad) 20%,var(--line))'}}>{t.title.slice(0,35)}{t.title.length>35?'…':''}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-dash">
+        <SectionCard title="Funnel d'acquisition" sub="Impressions → Clics → Leads → Présents" className="span-funnel" sectionKey="dashboard" allComments={comments} onAddComment={onAddComment}>
+          <FunnelChart data={a.funnel}/>
+          {/* YoY funnel mini */}
+          <div style={{marginTop:14,padding:12,background:'var(--card-2)',borderRadius:12,display:'flex',gap:16,flexWrap:'wrap'}}>
+            <span style={{fontSize:11.5,fontWeight:700,color:'var(--muted)'}}>Comparaison N-1</span>
+            {[
+              {label:'Impressions',cur:a.impressions,prev:YOY_DATA.impressions,fmt:J.intf},
+              {label:'Leads',cur:a.leadsTotal,prev:YOY_DATA.leads,fmt:J.intf},
+              {label:'Présents',cur:a.venus,prev:YOY_DATA.venus,fmt:J.intf},
+            ].map(item=>{
+              const delta=item.prev>0?((item.cur-item.prev)/item.prev*100):0;
+              const c=delta>=0?'var(--good)':'var(--bad)';
+              return <span key={item.label} style={{fontSize:12,fontWeight:700}}>{item.label} : {item.fmt(item.cur)} <span style={{color:c,fontWeight:800,fontSize:11}}>{delta>=0?'+':''}{delta.toFixed(1)}%</span></span>
+            })}
+          </div>
+        </SectionCard>
+        <div className="hero-card">
+          <div className="hero-head">
+            <span className="hero-eyebrow">Taux de présence réseau</span>
+            <span className="icon-pastille on-accent"><Ico d={ICONS.check}/></span>
+          </div>
+          <div className="hero-gauge"><TickGauge value={a.tauxPresence} sub={`${J.intf(a.venus)} / ${J.intf(a.leadsTotal)}`}/></div>
+          <p className="hero-note">{presTone==='good'?'Objectif de 30 % atteint.':presTone==='bad'?'En deçà de l\'objectif — relances à renforcer.':'Proche de l\'objectif de 30 %.'}</p>
+          <div style={{background:'rgba(255,255,255,.15)',borderRadius:10,padding:'8px 12px',marginTop:4}}>
+            <span style={{fontSize:11.5,fontWeight:700,opacity:.9}}>N-1 : {J.pct(YOY_DATA.tauxPresence,0)} · </span>
+            <span style={{fontSize:11.5,fontWeight:800,color:(a.tauxPresence>YOY_DATA.tauxPresence?'#a8ffcc':'#ffb3b0')}}>
+              {a.tauxPresence>YOY_DATA.tauxPresence?'▲':a.tauxPresence<YOY_DATA.tauxPresence?'▼':'='} {((a.tauxPresence-YOY_DATA.tauxPresence)*100).toFixed(1)} pp
+            </span>
+          </div>
+        </div>
+        <SectionCard title="Performance par levier" sub="Répartition budget média payant">
+          <SegBar data={paidLeviers.map((l)=>({label:l.levier,value:l.cout,color:levierColor(l.levier),fmt:J.eur(l.cout)}))}/>
+          <div className="levier-table">{a.parLevier.map((l)=>(
+            <div className="levier-line" key={l.levier}>
+              <span className="lt-name"><span className="legend-dot" style={{background:levierColor(l.levier)}}/>{J.LEVIER_LABEL[l.levier]}</span>
+              <span className="lt-metric"><em>{l.levier==='CRM'?'—':J.eur2(l.cpl)}</em>CPL</span>
+              <span className="lt-metric"><em>{l.levier==='CRM'?J.pct(l.venus/(l.leads||1),0):J.pct(l.ctr,2)}</em>{l.levier==='CRM'?'présence':'CTR'}</span>
+              <span className="lt-metric"><em>{J.intf(l.leads)}</em>leads</span>
+            </div>
+          ))}</div>
+        </SectionCard>
+        <SectionCard title="Origine des leads" sub="Par source d'acquisition (CRM)">
+          <div className="donut-row">
+            <Donut data={sources.slice(0,6).map((s,i)=>({label:s.source,value:s.leads,color:`var(--c${(i%5)+1})`}))} centerTop={J.intf(a.crmLeads)} centerSub="leads"/>
+            <div className="donut-legend">{sources.slice(0,6).map((s,i)=>(
+              <div className="dl-row" key={s.source}><span className="legend-dot" style={{background:`var(--c${(i%5)+1})`}}/><span className="dl-name">{s.source}</span><span className="dl-val">{J.intf(s.leads)}</span></div>
+            ))}</div>
+          </div>
+        </SectionCard>
+        {showInsights&&<SectionCard title="Insights automatiques" sub="Lecture des performances en langage clair" className="span-insights">
+          <div className="insights">{ins.map((it,i)=>(
+            <div className={`insight insight-${it.tone}`} key={i}>
+              <span className="insight-tag">{it.tone==='good'?'Opportunité':it.tone==='bad'?'Alerte':'À surveiller'}</span>
+              <h4>{it.titre}</h4><p>{it.texte}</p>
+            </div>
+          ))}</div>
+        </SectionCard>}
+      </div>
+
+      {/* Rétro planning */}
+      <RetroPlanningView comments={comments} onAddComment={onAddComment}/>
+    </div>
+  );
+}
+
+/* ===== CAMPAGNES ===== */
+function CampagnesView({ rows, comments, onAddComment }) {
+  const all = useMemo(()=>J.campaignRows(rows),[rows]);
+  const [filt, setFilt] = useState('Tous');
+  const [sort, setSort] = useState({k:'cout',dir:-1});
+  const data = useMemo(()=>{let d=filt==='Tous'?all:all.filter((c)=>c.levier===filt);return [...d].sort((x,y)=>(x[sort.k]>y[sort.k]?1:-1)*sort.dir);},[all,filt,sort]);
+  const setSortK = (k) => setSort((s)=>({k,dir:s.k===k?-s.dir:-1}));
+  const cplSeries = [...all].sort((a,b)=>a.cpl-b.cpl).filter((c)=>c.cpl>0);
+  const cols = [
+    {k:'label',t:'Campagne',align:'left'},{k:'impressions',t:'Impr.',f:(v)=>fmtFR(v)},
+    {k:'clics',t:'Clics',f:(v)=>fmtFR(v)},{k:'ctr',t:'CTR',f:(v)=>J.pct(v,2)},
+    {k:'cpc',t:'CPC',f:(v)=>J.eur2(v)},{k:'leads',t:'Leads',f:(v)=>fmtFR(Math.round(v))},
+    {k:'cpl',t:'CPL',f:(v)=>v>0?J.eur2(v):'—'},{k:'cvr',t:'CVR',f:(v)=>J.pct(v,2)},
+  ];
+  return (
+    <div className="view">
+      <div className="kpi-row">
+        <KpiCardYoY label="Impressions" value={J.intf(J.sum(all,'impressions'))} icon={<Ico d={ICONS.desktop}/>} iconColor="var(--c1)"
+          sub="tous leviers" yoyValue={J.intf(YOY_DATA.impressions)} yoyCurrent={J.sum(all,'impressions')} yoyPrev={YOY_DATA.impressions}/>
+        <KpiCardYoY label="Clics" value={J.intf(J.sum(all,'clics'))} icon={<Ico d={ICONS.chart}/>} iconColor="var(--c2)"
+          sub="tous leviers" yoyValue={J.intf(YOY_DATA.clics)} yoyCurrent={J.sum(all,'clics')} yoyPrev={YOY_DATA.clics}/>
+        <KpiCardYoY label="Budget payant" value={J.eur(J.sum(all,'cout'))} icon={<Ico d={ICONS.euro}/>} iconColor="var(--c3)"
+          sub="SMA + SEA" yoyValue={J.eur(YOY_DATA.coutTotal)} yoyCurrent={J.sum(all,'cout')} yoyPrev={YOY_DATA.coutTotal} inverted/>
+        <KpiCardYoY label="Leads payants" value={J.intf(J.sum(all,'leads'))} icon={<Ico d={ICONS.leads}/>} iconColor="var(--c4)"
+          sub="tous leviers" yoyValue={J.intf(YOY_DATA.leads)} yoyCurrent={J.sum(all,'leads')} yoyPrev={YOY_DATA.leads}/>
+      </div>
+      <div className="filter-bar">
+        <span className="filter-bar-label">Levier</span>
+        {['Tous','SMA','SEA'].map(f=>(
+          <button key={f} onClick={()=>setFilt(f)} style={{padding:'7px 14px',border:`1px solid ${filt===f?'var(--accent)':'var(--line)'}`,borderRadius:10,background:filt===f?'color-mix(in srgb,var(--accent) 10%,var(--card))':'var(--card-2)',color:filt===f?'var(--accent)':'var(--ink)',fontSize:12.5,fontWeight:700,cursor:'pointer',fontFamily:'var(--sans)'}}>{f}</button>
+        ))}
+      </div>
+      <SectionCard title="Détail campagnes" sub="Classées par budget décroissant — cliquez sur les en-têtes pour trier" sectionKey="campagnes" allComments={comments} onAddComment={onAddComment}>
+        <div className="table-wrap"><table className="data-table">
+          <thead><tr>{cols.map(c=>(
+            <th key={c.k} className={c.align==='left'?'tl':'tr'} onClick={()=>setSortK(c.k)}>
+              {c.t}{sort.k===c.k?<span className="sort-ar">{sort.dir===1?' ▲':' ▼'}</span>:null}
+            </th>
+          ))}</tr></thead>
+          <tbody>{data.map((r,i)=>(
+            <tr key={r.key}>
+              {cols.map(c=>(
+                <td key={c.k} className={c.align==='left'?'tl':'tr'}>
+                  {c.k==='label'?<><span className="lev-chip" style={{background:levierColor(r.levier)}}>{r.levier}</span>{r.label}</>
+                  :c.k==='cpl'?<span className={r.cpl>0&&r.cpl<=25?'cell-good':r.cpl>=40?'cell-bad':''}>{c.f(r[c.k])}</span>
+                  :c.f?c.f(r[c.k]):r[c.k]}
+                </td>
+              ))}
+            </tr>
+          ))}</tbody>
+        </table></div>
+        {cplSeries.length>0&&(
+          <div style={{marginTop:18}}>
+            <p style={{margin:'0 0 12px',fontSize:12.5,fontWeight:700,color:'var(--muted)',textTransform:'uppercase',letterSpacing:'.04em'}}>CPL par campagne (classé du meilleur au pire)</p>
+            <HBars rows={cplSeries} accessor={(r)=>r.cpl} label={(r)=>r.label} format={(v)=>J.eur2(v)}
+              color={(r)=>r.cpl<=25?'var(--good)':r.cpl>=40?'var(--bad)':'var(--warn)'}/>
+          </div>
+        )}
+      </SectionCard>
+    </div>
+  );
+}
+
+/* ===== CRÉATIFS ===== */
+function CreatifsView({ rows, comments, onAddComment }) {
+  const ca = useMemo(()=>J.creativeAnalysis(rows),[rows]);
+  const [metric, setMetric] = useState('leads');
+  const video = ca.types.find(t=>t.type==='Vidéo')||{leads:0,clics:0,cout:0,impressions:0,ctr:0,cvr:0,cpl:0};
+  const stat = ca.types.find(t=>t.type==='Statique')||{leads:0,clics:0,cout:0,impressions:0,ctr:0,cvr:0,cpl:0};
+  const vsMetrics=[{k:'Leads',v:(x)=>fmtFR(x.leads)},{k:'Clics',v:(x)=>fmtFR(x.clics)},{k:'CTR',v:(x)=>J.pct(x.ctr,2)},{k:'CVR',v:(x)=>J.pct(x.cvr,2)},{k:'CPL',v:(x)=>J.eur2(x.cpl)},{k:'Budget',v:(x)=>J.eur(x.cout)}];
+  return (
+    <div className="view">
+      <div className="grid grid-2">
+        <SectionCard title="Vidéo vs Statique" sub="Comparaison par format créatif" sectionKey="creatifs" allComments={comments} onAddComment={onAddComment}>
+          <div className="vs" style={{'--vc':'var(--c1)'}}>
+            <div className="vs-col"><span className="vs-name">Vidéo</span><span className="vs-big">{fmtFR(video.leads)}<small>leads</small></span><span className="vs-mid">{J.eur2(video.cpl)} CPL</span></div>
+            <div style={{fontSize:18,fontWeight:800,color:'var(--muted)'}}>vs</div>
+            <div className="vs-col" style={{'--vc':'var(--c4)'}}><span className="vs-name" style={{color:'var(--c4)'}}>Statique</span><span className="vs-big" style={{color:'var(--c4)'}}>{fmtFR(stat.leads)}<small>leads</small></span><span className="vs-mid">{J.eur2(stat.cpl)} CPL</span></div>
+          </div>
+          <div className="vs-metrics">{vsMetrics.map(m=>(
+            <div className="vsm-row" key={m.k}>
+              <span className="vsm-v" style={{color:'var(--c1)'}}>{m.v(video)}</span>
+              <span className="vsm-k">{m.k}</span>
+              <span className="vsm-v" style={{color:'var(--c4)'}}>{m.v(stat)}</span>
+            </div>
+          ))}</div>
+        </SectionCard>
+        <SectionCard title="Leads par créa" sub="Toutes créas SMA confondues">
+          <HBars rows={ca.creas.filter((c)=>c.impressions>0)} accessor={(r)=>r.leads} label={(r)=>r.name} format={(v)=>fmtFR(v)} color={(r)=>typeColor(r.type)} maxRows={9}/>
+          <Legend items={[{label:'Vidéo',color:'var(--c1)'},{label:'Statique',color:'var(--c4)'}]}/>
+        </SectionCard>
+      </div>
+      <div className="grid grid-2">
+        <SectionCard title="Top 3 créas" sub="Meilleur coût par lead">
+          <div className="ranklist">{ca.top.map((c,i)=>(
+            <div className="rank-row good" key={c.name}>
+              <span className="rank-n">{i+1}</span>
+              <span className="rank-name">{c.name}<small style={{color:typeColor(c.type)}}>{c.type}</small></span>
+              <span className="rank-metric"><em>{J.eur2(c.cpl)}</em>CPL</span>
+              <span className="rank-metric"><em>{fmtFR(c.leads)}</em>leads</span>
+            </div>
+          ))}</div>
+        </SectionCard>
+        <SectionCard title="À couper en priorité" sub="CPL élevé ou clics sans conversion">
+          <div className="ranklist">
+            {ca.worst.map((c,i)=>(
+              <div className="rank-row bad" key={c.name}>
+                <span className="rank-n">{i+1}</span>
+                <span className="rank-name">{c.name}<small style={{color:typeColor(c.type)}}>{c.type}</small></span>
+                <span className="rank-metric"><em>{c.cpl>0?J.eur2(c.cpl):'—'}</em>CPL</span>
+                <span className="rank-metric"><em>{fmtFR(c.leads)}</em>leads</span>
+              </div>
+            ))}
+            {ca.zeroConv.slice(0,2).map((c)=>(
+              <div className="rank-row bad" key={'z'+c.name}>
+                <span className="rank-n">!</span>
+                <span className="rank-name">{c.name}<small style={{color:'var(--bad)'}}>0 conversion</small></span>
+                <span className="rank-metric"><em>{fmtFR(c.clics)}</em>clics</span>
+                <span className="rank-metric"><em>{J.eur(c.cout)}</em>perdu</span>
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+      </div>
+      <SectionCard title="Top visuels réseau" sub="Meilleures créas toutes campagnes confondues — classées par CPL">
+        <div className="visuels-grid">
+          {[...ca.creas].filter((c)=>c.leads>0).sort((a,b)=>a.cpl-b.cpl).slice(0,6).map((c,i)=>{
+            const bg = typeColor(c.type);
+            const bgFull = c.type==='Vidéo'?'#2f6bff':c.type==='Statique'?'#9b6cff':'#15b079';
+            return (
+              <div className="visuel-card" key={c.name}>
+                <div className="visuel-thumb" style={{background:`linear-gradient(135deg, ${bgFull}cc, ${bgFull}88)`}}>
+                  <span style={{fontSize:13,opacity:.9,padding:'0 12px',textAlign:'center',lineHeight:1.3}}>{c.name}</span>
+                </div>
+                <div className="visuel-meta">
+                  <span className="visuel-badge" style={{background:bgFull}}>{c.type}</span>
+                  <div className="visuel-name">{c.name}</div>
+                  <div className="visuel-kpis">
+                    <span className="visuel-kpi"><em>{J.pct(c.ctr,2)}</em> CTR</span>
+                    <span className="visuel-kpi"><em>{J.eur2(c.cpl)}</em> CPL</span>
+                    <span className="visuel-kpi"><em>{fmtFR(c.leads)}</em> leads</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </SectionCard>
+    </div>
+  );
+}
+
+/* ===== VUE CAMPUS ===== */
+function CampusView({ rows, comments, onAddComment }) {
+  const allCampus = useMemo(()=>J.campusRanking(rows),[rows]);
+  const [mode, setMode] = useState('hq');
+  const [subTab, setSubTab] = useState('overview');
+  const campusNames = allCampus.map((c)=>c.campus);
+  const selectedCampus = mode === 'hq' ? null : mode;
+  const hqStats = useMemo(()=>J.aggregate(rows),[rows]);
+  const totalLeads = J.sum(allCampus,'leads');
+  const totalVenus = J.sum(allCampus,'venus');
+  const campusData = useMemo(()=>{
+    if (!selectedCampus) return null;
+    const c = allCampus.find((x)=>x.campus===selectedCampus)||{leads:0,venus:0,nonVenus:0,confirmes:0,taux:0};
+    const sources = J.sourceBreakdown(rows, selectedCampus);
+    return { ...c, sources };
+  },[selectedCampus, allCampus, rows]);
+  const netAvg = useMemo(()=>J.networkAvg(rows, selectedCampus),[rows, selectedCampus]);
+  const journalEntries = useMemo(()=>{
+    if (!campusData) return [];
+    return J.journalInsights(campusData, netAvg);
+  },[campusData, netAvg]);
+  const shortName = (c) => J.shortCampus(c);
+
+  const tabBar = (
+    <div className="campus-tabs">
+      <button className={`campus-tab hq ${mode==='hq'?'active':''}`} onClick={()=>{setMode('hq');setSubTab('overview');}}>Siège / Réseau</button>
+      {campusNames.map((cn)=>(
+        <button key={cn} className={`campus-tab ${mode===cn?'active':''}`} onClick={()=>{setMode(cn);setSubTab('overview');}}>{shortName(cn)}</button>
+      ))}
+    </div>
+  );
+
+  if (mode === 'hq') {
+    return (
+      <div className="view">
+        {tabBar}
+        <div className="campus-banner">
+          <div className="campus-banner-info">
+            <span className="campus-banner-label">Vue consolidée</span>
+            <span className="campus-banner-name">Réseau ESG Luxe</span>
+            <span className="campus-banner-meta">{allCampus.length} campus · JPO 13 Décembre 2025</span>
+          </div>
+          <span className="campus-badge hq">Direction Marketing</span>
+        </div>
+        <div className="kpi-row-5">
+          <KpiCardYoY label="Leads générés" value={J.intf(totalLeads)} icon={<Ico d={ICONS.leads}/>} iconColor="var(--c1)"
+            sub="tous campus" yoyValue={J.intf(YOY_DATA.leads)} yoyCurrent={totalLeads} yoyPrev={YOY_DATA.leads}/>
+          <KpiCardYoY label="Présents" value={J.intf(totalVenus)} icon={<Ico d={ICONS.check}/>} iconColor="var(--c2)"
+            sub={`${J.pct(totalLeads>0?totalVenus/totalLeads:0,0)} de présence`}
+            yoyValue={J.pct(YOY_DATA.tauxPresence,0)+'  ('+J.intf(YOY_DATA.venus)+')'} yoyCurrent={totalLeads>0?totalVenus/totalLeads:0} yoyPrev={YOY_DATA.tauxPresence}/>
+          <KpiCardYoY label="Coût total" value={J.eur(hqStats.coutTotal)} icon={<Ico d={ICONS.euro}/>} iconColor="var(--c3)"
+            sub="SMA + SEA" yoyValue={J.eur(YOY_DATA.coutTotal)} yoyCurrent={hqStats.coutTotal} yoyPrev={YOY_DATA.coutTotal} inverted/>
+          <KpiCardYoY label="CPL moyen" value={J.eur2(hqStats.cplMoyen)} tone={hqStats.cplMoyen<=25?'good':hqStats.cplMoyen>=40?'bad':'warn'} icon={<Ico d={ICONS.tag}/>} iconColor="var(--c5)"
+            sub="réseau payant" yoyValue={J.eur2(YOY_DATA.cplMoyen)} yoyCurrent={hqStats.cplMoyen} yoyPrev={YOY_DATA.cplMoyen} inverted/>
+          <KpiCardYoY label="Taux de présence" value={J.pct(totalLeads>0?totalVenus/totalLeads:0,0)} tone={(totalVenus/totalLeads)>=0.3?'good':(totalVenus/totalLeads)<=0.2?'bad':'warn'} icon={<Ico d={ICONS.map}/>} iconColor="var(--c4)"
+            sub="objectif 30 %" yoyValue={J.pct(YOY_DATA.tauxPresence,0)} yoyCurrent={totalLeads>0?totalVenus/totalLeads:0} yoyPrev={YOY_DATA.tauxPresence}/>
+        </div>
+        <div className="grid grid-2">
+          <SectionCard title="Performance SMA vs SEA" sub="Budget et leads par canal payant" sectionKey="campus" allComments={comments} onAddComment={onAddComment}>
+            <SegBar data={hqStats.parLevier.filter((l)=>l.levier!=='CRM').map((l)=>({label:l.levier,value:l.cout,color:levierColor(l.levier),fmt:J.eur(l.cout)}))}/>
+            <div className="levier-table">{hqStats.parLevier.map((l)=>(
+              <div className="levier-line" key={l.levier}>
+                <span className="lt-name"><span className="legend-dot" style={{background:levierColor(l.levier)}}/>{J.LEVIER_LABEL[l.levier]}</span>
+                <span className="lt-metric"><em>{l.levier==='CRM'?'—':J.eur2(l.cpl)}</em>CPL</span>
+                <span className="lt-metric"><em>{l.levier==='CRM'?J.pct(l.venus/(l.leads||1),0):J.pct(l.ctr,2)}</em>{l.levier==='CRM'?'présence':'CTR'}</span>
+                <span className="lt-metric"><em>{J.intf(l.leads)}</em>leads</span>
+              </div>
+            ))}</div>
+          </SectionCard>
+          <SectionCard title="Vue device estimée" sub="Répartition desktop / mobile (SMA + SEA)">
+            <div style={{display:'flex',flexDirection:'column',gap:12}}>
+              <div className="device-split">
+                <div className="device-item">
+                  <div className="device-icon" style={{background:'color-mix(in srgb,var(--c2) 12%,transparent)'}}><Ico d={ICONS.device} size={20}/></div>
+                  <div className="device-info"><span className="device-name">Mobile</span><span className="device-val" style={{color:'var(--c2)'}}>~68%</span><span className="device-sub">des impressions SMA</span></div>
+                </div>
+                <div className="device-item">
+                  <div className="device-icon" style={{background:'color-mix(in srgb,var(--c1) 12%,transparent)'}}><Ico d={ICONS.desktop} size={20}/></div>
+                  <div className="device-info"><span className="device-name">Desktop</span><span className="device-val" style={{color:'var(--c1)'}}>~32%</span><span className="device-sub">des impressions SMA</span></div>
+                </div>
+              </div>
+              <p style={{margin:0,fontSize:12.5,color:'var(--muted)',fontWeight:500,lineHeight:1.55}}>Données device estimées à partir des benchmarks Meta Ads.</p>
+            </div>
+          </SectionCard>
+        </div>
+        <SectionCard title="Classement réseau" sub={`${allCampus.length} campus · ${J.intf(totalLeads)} leads · ${J.pct(totalLeads>0?totalVenus/totalLeads:0,1)} présence moyenne`}>
+          <div className="table-wrap"><table className="data-table">
+            <thead><tr>
+              <th className="tl">#</th><th className="tl">Campus</th>
+              <th className="tr">Leads</th><th className="tr">Présents</th>
+              <th className="tr">Non venus</th><th className="tr">Présence</th>
+              <th className="tr">vs moy.</th>
+            </tr></thead>
+            <tbody>{allCampus.map((r,i)=>{
+              const avgTaux = totalLeads>0?totalVenus/totalLeads:0;
+              const delta = r.taux - avgTaux;
+              const dSign = delta>0?'+':'';
+              return (
+                <tr key={r.campus} style={{cursor:'pointer'}} onClick={()=>{setMode(r.campus);setSubTab('overview');}}>
+                  <td className="tl rank-cell">{i+1}</td>
+                  <td className="tl">{shortName(r.campus)}</td>
+                  <td className="tr strong">{J.intf(r.leads)}</td>
+                  <td className="tr">{J.intf(r.venus)}</td>
+                  <td className="tr muted">{J.intf(r.nonVenus)}</td>
+                  <td className="tr"><span className="presence-pill" style={{'--pc':r.taux>=0.3?'var(--good)':r.taux<=0.2?'var(--bad)':'var(--warn)'}}>{J.pct(r.taux,0)}</span></td>
+                  <td className="tr"><span className={`bench-delta ${delta>=0?'up':'down'}`}>{dSign}{(delta*100).toFixed(1)} pp</span></td>
+                </tr>
+              );
+            })}</tbody>
+          </table></div>
+        </SectionCard>
+        <div className="grid grid-2">
+          <SectionCard title="Leads par campus" sub="Volume de prospects collectés">
+            <HBars rows={allCampus} accessor={(r)=>r.leads} label={(r)=>shortName(r.campus)} format={(v)=>fmtFR(v)} color="var(--c3)"/>
+          </SectionCard>
+          <SectionCard title="Présence par campus" sub="Objectif 30 %">
+            <HBars rows={[...allCampus].sort((a,b)=>b.taux-a.taux)} accessor={(r)=>r.taux} label={(r)=>shortName(r.campus)}
+              format={(v)=>J.pct(v,0)} color={(r)=>r.taux>=0.3?'var(--good)':r.taux<=0.2?'var(--bad)':'var(--warn)'}/>
+          </SectionCard>
+        </div>
+      </div>
+    );
+  }
+
+  // Campus individuel
+  const cd = campusData;
+  const avgTauxReseau = allCampus.length > 0 ? J.sum(allCampus,'venus')/J.sum(allCampus,'leads') : 0;
+  const subTabs = [
+    {id:'overview',label:'Vue d\'ensemble',icon:ICONS.chart},
+    {id:'journal',label:'Journal de bord',icon:ICONS.book},
+    {id:'simulator',label:'Simulateur JPO',icon:ICONS.sim},
+  ];
+  return (
+    <div className="view">
+      {tabBar}
+      <div className="campus-banner">
+        <div className="campus-banner-info">
+          <span className="campus-banner-label">Vue campus</span>
+          <span className="campus-banner-name">{selectedCampus}</span>
+          <span className="campus-banner-meta">JPO 13 Décembre 2025 · Données anonymisées vis-à-vis des autres campus</span>
+        </div>
+        <span className="campus-badge campus">Directeur campus</span>
+      </div>
+      <div style={{display:'flex',gap:8}}>
+        {subTabs.map((t)=>(
+          <button key={t.id} onClick={()=>setSubTab(t.id)} style={{
+            display:'flex',alignItems:'center',gap:8,padding:'10px 18px',border:0,borderRadius:13,
+            fontSize:13,fontWeight:700,cursor:'pointer',transition:'all .15s',fontFamily:'var(--sans)',
+            background:subTab===t.id?'var(--card)':'transparent',
+            color:subTab===t.id?'var(--ink)':'var(--muted)',
+            boxShadow:subTab===t.id?'var(--shadow-sm)':'none',
+          }}>
+            <Ico d={t.icon} size={15}/>{t.label}
+          </button>
+        ))}
+      </div>
+      {subTab === 'overview' && (
+        <>
+          <div className="kpi-row">
+            <KpiCard label="Leads" value={J.intf(cd.leads)} icon={<Ico d={ICONS.leads}/>} iconColor="var(--c1)" sub="prospects collectés"/>
+            <KpiCard label="Présents" value={J.intf(cd.venus)} icon={<Ico d={ICONS.check}/>} iconColor="var(--c2)" sub={`sur ${J.intf(cd.leads)} leads`}/>
+            <KpiCard label="Taux de présence" value={J.pct(cd.taux,0)} tone={cd.taux>=0.3?'good':cd.taux<=0.2?'bad':'warn'} icon={<Ico d={ICONS.chart}/>} iconColor="var(--c5)"
+              sub={cd.taux>=0.3?'Objectif atteint':cd.taux<=0.2?'En dessous de l\'objectif':'Proche de l\'objectif'}/>
+            <KpiCard label="Non venus" value={J.intf(cd.nonVenus)} icon={<Ico d={ICONS.alert}/>} iconColor="var(--c3)" sub="à relancer"/>
+          </div>
+          <div className="grid grid-2">
+            <div className="bench-card">
+              <div className="card-head"><div><h3 className="card-title">Benchmark anonymisé</h3><p className="card-sub">Votre campus vs moyenne réseau</p></div></div>
+              {[
+                {label:'Volume leads',my:cd.leads,avg:netAvg.avgLeads,fmt:J.intf,invert:false},
+                {label:'Taux de présence',my:cd.taux,avg:netAvg.avgTaux,fmt:(v)=>J.pct(v,1),invert:false},
+                {label:'CPL payant',my:netAvg.avgCPL,avg:netAvg.avgCPL,fmt:J.eur2,invert:true},
+              ].map(row=>{
+                const delta = row.avg>0?(row.my-row.avg)/row.avg:0;
+                const good = row.invert?delta<-0.05:delta>0.05;
+                const bad2 = row.invert?delta>0.05:delta<-0.05;
+                return (
+                  <div className="bench-row" key={row.label}>
+                    <span className="bench-label">{row.label}</span>
+                    <span className="bench-my">{row.fmt(row.my)}</span>
+                    <span className="bench-avg">moy. {row.fmt(row.avg)}</span>
+                    <span className={`bench-delta ${good?'up':bad2?'down':'eq'}`}>{delta>=0?'+':''}{(delta*100).toFixed(0)}%</span>
+                  </div>
+                );
+              })}
+            </div>
+            <SectionCard title="Sources d'acquisition" sub="Répartition par canal d'origine (CRM)" sectionKey="campus" allComments={comments} onAddComment={onAddComment}>
+              <HBars rows={cd.sources} accessor={(r)=>r.leads} label={(r)=>r.source} format={(v)=>fmtFR(v)} color="var(--c3)"/>
+            </SectionCard>
+          </div>
+          <SectionCard title="Performance créatifs" sub="Leads par créa (SMA) et campagne (SEA) pour ce campus">
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
+              <div>
+                <p style={{margin:'0 0 12px',fontSize:12.5,fontWeight:700,color:'var(--muted)',textTransform:'uppercase',letterSpacing:'.04em'}}>SMA · Meta Ads</p>
+                <HBars rows={J.creativeAnalysis(rows).creas.filter((c)=>c.leads>0).slice(0,5)} accessor={(r)=>r.leads} label={(r)=>r.name} format={(v)=>fmtFR(v)} color="var(--c1)" maxRows={5}/>
+              </div>
+              <div>
+                <p style={{margin:'0 0 12px',fontSize:12.5,fontWeight:700,color:'var(--muted)',textTransform:'uppercase',letterSpacing:'.04em'}}>SEA · Google Ads</p>
+                <HBars rows={J.campaignRows(rows).filter((c)=>c.levier==='SEA')} accessor={(r)=>r.leads} label={(r)=>r.label.replace('Google · ','')} format={(v)=>fmtFR(v)} color="var(--c2)"/>
+              </div>
+            </div>
+          </SectionCard>
+        </>
+      )}
+      {subTab === 'journal' && (
+        <SectionCard title="Journal de bord" sub={`Analyse automatique et recommandations — ${selectedCampus}`} sectionKey="campus" allComments={comments} onAddComment={onAddComment}>
+          <div className="journal">
+            {journalEntries.map((entry,i)=>{
+              const color = entry.tone==='good'?'var(--good)':entry.tone==='bad'?'var(--bad)':entry.tone==='warn'?'var(--warn)':'var(--c1)';
+              return (
+                <div className="journal-entry" key={i}>
+                  <div className="journal-stripe" style={{background:color}}/>
+                  <div className="journal-body">
+                    <span className="journal-date">{entry.date}</span>
+                    <span className="journal-title">{entry.title}</span>
+                    <span className="journal-text">{entry.text}</span>
+                    {entry.actions&&<div className="journal-actions">
+                      {entry.actions.map((a,j)=>(
+                        <button key={j} className={`journal-action-btn ${j===0?'primary':''}`}
+                          onClick={()=>{ if(/simulateur/i.test(a)) setSubTab('simulator'); }}>
+                          {a}
+                        </button>
+                      ))}
+                    </div>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </SectionCard>
+      )}
+      {subTab === 'simulator' && (
+        <SimulatorView campusData={cd} netAvg={netAvg} campusName={selectedCampus}/>
+      )}
+    </div>
+  );
+}
+
+/* ===== SIMULATEUR ===== */
+function SimulatorView({ campusData, netAvg, campusName }) {
+  const [budget, setBudget] = useState(1500);
+  const [tauxPresRef, setTauxPresRef] = useState(Math.max(campusData.taux, 0.2));
+  const [ratioPaidOrganic, setRatioPaidOrganic] = useState(70);
+  const historicCPL = netAvg.avgCPL > 0 ? netAvg.avgCPL : 28;
+  const historicPres = campusData.taux > 0 ? campusData.taux : 0.22;
+  const paidBudget = budget * ratioPaidOrganic / 100;
+  const organicBudget = budget - paidBudget;
+  const estimLeadsPaid = historicCPL > 0 ? Math.round(paidBudget / historicCPL) : 0;
+  const estimLeadsOrganic = Math.round(organicBudget / 15);
+  const estimLeadsTotal = estimLeadsPaid + estimLeadsOrganic;
+  const estimPresents = Math.round(estimLeadsTotal * tauxPresRef);
+  const estimCPL = estimLeadsTotal > 0 ? budget / estimLeadsTotal : 0;
+  const estimCPP = estimPresents > 0 ? budget / estimPresents : 0;
+  return (
+    <SectionCard title="Simulateur JPO" sub={`Projection budgétaire — ${campusName} — basée sur les données historiques`}>
+      <div className="simulator">
+        <div className="sim-controls">
+          <div className="sim-row"><span className="sim-label">Budget total</span><input type="range" className="sim-range" min="500" max="5000" step="100" value={budget} onChange={(e)=>setBudget(Number(e.target.value))}/><span className="sim-val">{J.eur(budget)}</span></div>
+          <div className="sim-row"><span className="sim-label">Part paid (%)</span><input type="range" className="sim-range" min="0" max="100" step="5" value={ratioPaidOrganic} onChange={(e)=>setRatioPaidOrganic(Number(e.target.value))}/><span className="sim-val">{ratioPaidOrganic}%</span></div>
+          <div className="sim-row"><span className="sim-label">Taux présence cible</span><input type="range" className="sim-range" min="0.10" max="0.80" step="0.01" value={tauxPresRef} onChange={(e)=>setTauxPresRef(Number(e.target.value))}/><span className="sim-val">{J.pct(tauxPresRef,0)}</span></div>
+        </div>
+        <div className="sim-results">
+          <div className="sim-kpi"><span className="sim-kpi-label">Leads estimés</span><span className="sim-kpi-value" style={{color:'var(--c1)'}}>{fmtFR(estimLeadsTotal)}</span><span className="sim-kpi-sub">{fmtFR(estimLeadsPaid)} payants · {fmtFR(estimLeadsOrganic)} organiques</span></div>
+          <div className="sim-kpi"><span className="sim-kpi-label">Présents estimés</span><span className="sim-kpi-value" style={{color:'var(--c2)'}}>{fmtFR(estimPresents)}</span><span className="sim-kpi-sub">à {J.pct(tauxPresRef,0)} de taux de présence</span></div>
+          <div className="sim-kpi"><span className="sim-kpi-label">CPL estimé</span><span className="sim-kpi-value" style={{color:estimCPL<=25?'var(--good)':estimCPL>=40?'var(--bad)':'var(--warn)'}}>{J.eur2(estimCPL)}</span><span className="sim-kpi-sub">basé sur CPL historique {J.eur2(historicCPL)}</span></div>
+          <div className="sim-kpi"><span className="sim-kpi-label">Coût / présent</span><span className="sim-kpi-value" style={{color:'var(--c4)'}}>{J.eur2(estimCPP)}</span><span className="sim-kpi-sub">budget total ÷ présents</span></div>
+        </div>
+        <div style={{background:'color-mix(in srgb,var(--c1) 6%,var(--card-2))',borderRadius:16,padding:16}}>
+          <p style={{margin:0,fontSize:12.5,fontWeight:600,color:'var(--ink)',lineHeight:1.6}}>
+            <strong style={{display:'block',marginBottom:4}}>Analyse automatique</strong>
+            {estimCPL > 0 && estimCPL <= 25 && `Avec un budget de ${J.eur(budget)}, le CPL estimé de ${J.eur2(estimCPL)} est dans la cible. Ce plan est viable.`}
+            {estimCPL > 25 && estimCPL <= 40 && `Le CPL estimé de ${J.eur2(estimCPL)} est proche du plafond de 40 €. Envisagez d'augmenter la part organique ou le budget global.`}
+            {estimCPL > 40 && `Attention : le CPL estimé de ${J.eur2(estimCPL)} dépasse l'objectif de 40 €. Augmentez le budget ou revoyez le mix paid/organique.`}
+            {' '}Sur la base d'un taux de présence cible de {J.pct(tauxPresRef,0)}, vous pouvez espérer <strong>{fmtFR(estimPresents)} présents</strong> à la JPO.
+          </p>
+        </div>
+      </div>
+    </SectionCard>
+  );
+}
+
+function KpiCard({ label, value, sub, tone='neutral', icon, iconColor, chips }) {
+  const toneVar = tone==='good'?'var(--good)':tone==='bad'?'var(--bad)':tone==='warn'?'var(--warn)':'var(--ink)';
+  const ic = iconColor||'var(--accent)';
+  return (
+    <div className="kpi">
+      <div className="kpi-top"><span className="kpi-label">{label}</span>{icon?<span className="icon-pastille" style={{background:`color-mix(in srgb, ${ic} 15%, transparent)`,color:ic}}>{icon}</span>:null}</div>
+      <div className="kpi-value" style={{color:tone==='neutral'?'var(--ink)':toneVar}}>{value}</div>
+      {chips&&chips.length?(<div className="substats">{chips.map((c,i)=>(<span className="substat" key={i}><span className="substat-dot" style={{background:c.color||'var(--muted)'}} /><em>{c.v}</em>{c.k}</span>))}</div>):(<div className="kpi-foot">{tone!=='neutral'?<span className="dot" style={{background:toneVar}} />:null}<span className="kpi-sub" style={{color:tone==='neutral'?'var(--muted)':toneVar}}>{sub}</span></div>)}
+    </div>
+  );
+}
+
+Object.assign(window, { DashboardView, CampagnesView, CreatifsView, CampusView, TicketPanel, NotifPanel, buildNotifications, INIT_TICKETS, INIT_COMMENTS });
+})();
+  </script>
+
+  <!-- APP SHELL v2 -->
+  <script type="text/babel">
+(function () {
+  const { useState, useEffect, useRef } = React;
+
+  const THEMES = {
+    soft: {'--paper':'#f4f4f2','--card':'#ffffff','--card-2':'#f7f7f5','--ink':'#1c1c1e','--muted':'#86868b','--line':'#ededec','--accent':'#2f6bff','--c1':'#2f6bff','--c2':'#15b079','--c3':'#f5a623','--c4':'#9b6cff','--c5':'#ff6a5d','--good':'#18a06a','--warn':'#df9526','--bad':'#ff5b50'},
+    apple: {'--paper':'#f5f5f7','--card':'#ffffff','--card-2':'#fbfbfd','--ink':'#1d1d1f','--muted':'#86868b','--line':'#e8e8ed','--accent':'#0071e3','--c1':'#0071e3','--c2':'#34a853','--c3':'#ff9f0a','--c4':'#8a5cf6','--c5':'#ff6258','--good':'#1a9e5f','--warn':'#cf8a1f','--bad':'#ff453a'},
+    alan: {'--paper':'#f6f1ea','--card':'#ffffff','--card-2':'#fbf6ef','--ink':'#1f1d2b','--muted':'#8b8794','--line':'#ece5db','--accent':'#5a4bf2','--c1':'#5a4bf2','--c2':'#13b486','--c3':'#ffaa3b','--c4':'#c062d8','--c5':'#ff6f61','--good':'#13a877','--warn':'#e0942b','--bad':'#ff6157'},
+  };
+
+  const NAV = [
+    {id:'dashboard',label:'Dashboard global',icon:'M3 13h7V3H3v10Zm0 8h7v-6H3v6Zm10 0h7V11h-7v10Zm0-18v6h7V3h-7Z'},
+    {id:'campagnes',label:'Analyse campagnes',icon:'M4 19V5m0 14h16M8 19v-6m4 6V9m4 10v-8m4 8V7'},
+    {id:'creatifs',label:'Analyse créatifs',icon:'M4 5h16v11H4zM4 16l5-5 3 3 4-4 4 4M8 9.5A1.5 1.5 0 1 0 8 6.5a1.5 1.5 0 0 0 0 3Z'},
+    {id:'campus',label:'Vue campus',icon:'M12 3 2 9l10 6 10-6-10-6Zm0 18v-6m-6 1.5V12m12 4.5V12'},
+  ];
+
+  const DEFAULTS = {theme:'soft',accent:'#2f6bff',density:'confort',showInsights:true,dashLayout:'standard'};
+  const ACCENTS = ['#2f6bff','#0071e3','#5a4bf2','#15b079','#ff6a5d'];
+
+  function Ico({ d, size=16 }) {
+    return React.createElement('svg',{viewBox:'0 0 24 24',width:size,height:size,fill:'none',stroke:'currentColor',strokeWidth:'1.9',strokeLinecap:'round',strokeLinejoin:'round'},
+      React.createElement('path',{d}));
+  }
+  const ICON_BELL = 'M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0';
+  const ICON_TICKET = 'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2';
+  const ICON_UPLOAD = 'M12 16V4m0 0L8 8m4-4 4 4M4 20h16';
+
+  function App() {
+    const [tweaks, setTweakState] = useState(DEFAULTS);
+    const setTweak = (k, v) => setTweakState((s)=>({...s,[k]:v}));
+    const [rows, setRows] = useState(window.JPO_DATASET.rows);
+    const [meta, setMeta] = useState(window.JPO_DATASET.meta);
+    const [view, setView] = useState('dashboard');
+    const [upload, setUpload] = useState({status:'demo',name:null,error:null});
+    const [showTweaks, setShowTweaks] = useState(false);
+    const [showTickets, setShowTickets] = useState(false);
+    const [showNotifs, setShowNotifs] = useState(false);
+    const [tickets, setTickets] = useState(window.INIT_TICKETS);
+    const [notifs, setNotifs] = useState(window.buildNotifications([]));
+    const [comments, setComments] = useState(window.INIT_COMMENTS);
+    const fileRef = useRef(null);
+
+    useEffect(()=>{
+      const base = THEMES[tweaks.theme]||THEMES.soft;
+      const root = document.documentElement;
+      Object.entries(base).forEach(([k,v])=>root.style.setProperty(k,v));
+      if (tweaks.accent) root.style.setProperty('--accent',tweaks.accent);
+      root.setAttribute('data-density',tweaks.density||'confort');
+    },[tweaks.theme,tweaks.accent,tweaks.density]);
+
+    async function handleFile(file) {
+      if (!file) return;
+      setUpload({status:'loading',name:file.name,error:null});
+      try {
+        const buf = await file.arrayBuffer();
+        const parsed = await window.JPO.parseXlsx(buf);
+        setRows(parsed);
+        setMeta({tempsFort:parsed[0]?.tempsFort||'Import',ecole:parsed[0]?.campus?.split(' ')[0]||'Import',date:'',periode:parsed[0]?.periode||''});
+        setUpload({status:'loaded',name:file.name,error:null});
+      } catch(e) {
+        setUpload({status:'error',name:file.name,error:e.message||'Erreur de lecture'});
+      }
+    }
+    function resetDemo() {
+      setRows(window.JPO_DATASET.rows);
+      setMeta(window.JPO_DATASET.meta);
+      setUpload({status:'demo',name:null,error:null});
+    }
+
+    function handleAddTicket(ticket) {
+      setTickets(prev => [ticket, ...prev]);
+      // Add notif
+      setNotifs(prev => [{
+        id: Date.now(), tone:'warn', icon:'🎫',
+        title: 'Nouveau ticket créé',
+        text: ticket.title,
+        time: 'À l\'instant', unread: true,
+      }, ...prev]);
+    }
+
+    function handleAddComment(sectionKey, text) {
+      const colors = ['var(--c1)','var(--c4)','var(--c2)','var(--c3)','var(--c5)'];
+      const authors = ['Vous'];
+      const newComment = {
+        id: Date.now(), author: 'Vous', team: 'Market',
+        color: 'var(--accent)', text, time: 'À l\'instant', avatar: 'VO',
+      };
+      setComments(prev => ({ ...prev, [sectionKey]: [...(prev[sectionKey]||[]), newComment] }));
+    }
+
+    const unreadNotifs = notifs.filter(n=>n.unread).length;
+    const openTickets = tickets.filter(t=>t.status!=='done').length;
+
+    const ViewMap = {dashboard:window.DashboardView,campagnes:window.CampagnesView,creatifs:window.CreatifsView,campus:window.CampusView};
+    const View = ViewMap[view];
+    const navLabel = NAV.find((n)=>n.id===view).label;
+
+    return (
+      <div className="app">
+        <aside className="sidebar">
+          <div className="brand">
+            <div className="brand-mark">◆</div>
+            <div className="brand-txt"><strong>Galileo</strong><span>Marketing JPO</span></div>
+          </div>
+          <nav className="nav">
+            {NAV.map((n)=>(
+              <button key={n.id} className={`nav-item ${view===n.id?'active':''}`} onClick={()=>setView(n.id)}>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d={n.icon}/></svg>
+                <span>{n.label}</span>
+              </button>
+            ))}
+          </nav>
+          <div className="side-foot">
+            <div className="upload-box">
+              <p className="ub-title">Source de données</p>
+              <p className="ub-name">{upload.status==='demo'?'Démo — JPO ESG Luxe':upload.name}</p>
+              {upload.status==='error'?<p className="ub-error">{upload.error}</p>:null}
+              <button className="ub-btn" onClick={()=>fileRef.current.click()}>{upload.status==='loading'?'Lecture…':'Importer un .xlsx'}</button>
+              {upload.status!=='demo'?<button className="ub-link" onClick={resetDemo}>Revenir à la démo</button>:null}
+              <input ref={fileRef} type="file" accept=".xlsx" hidden onChange={(e)=>handleFile(e.target.files[0])}/>
+            </div>
+          </div>
+        </aside>
+
+        <main className="main">
+          <header className="topbar">
+            <div>
+              <p className="crumb">{meta.ecole} · {meta.tempsFort}</p>
+              <h1 className="page-title" style={{fontFamily:'var(--sans)'}}>{navLabel}</h1>
+            </div>
+            <div className="topbar-right">
+              <div className="period-chip"><span className="pc-dot"/>{meta.periode||'Période importée'}</div>
+
+              {/* Ticket button */}
+              <button className="icon-btn" onClick={()=>{setShowTickets(s=>!s);setShowNotifs(false);}} title="Ticketing Market/Com">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d={ICON_TICKET}/></svg>
+                {openTickets>0&&<span className="icon-btn-badge">{openTickets}</span>}
+              </button>
+
+              {/* Notification button */}
+              <button className="icon-btn" onClick={()=>{setShowNotifs(s=>!s);setShowTickets(false);}} title="Notifications">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d={ICON_BELL}/></svg>
+                {unreadNotifs>0&&<span className="icon-btn-badge">{unreadNotifs}</span>}
+              </button>
+
+              <button className="import-cta" onClick={()=>fileRef.current.click()}>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={ICON_UPLOAD}/></svg>
+                Importer
+              </button>
+              <button onClick={()=>setShowTweaks((s)=>!s)} style={{padding:'10px 14px',border:'1px solid var(--line)',borderRadius:999,background:'var(--card)',fontSize:12.5,fontWeight:700,color:'var(--muted)',cursor:'pointer',fontFamily:'var(--sans)'}}>Réglages</button>
+            </div>
+          </header>
+          {upload.status==='loaded'?<div className="flash">Fichier <strong>{upload.name}</strong> chargé — {rows.length} lignes analysées.</div>:null}
+          <div className="content">
+            <View rows={rows} tweaks={tweaks} comments={comments} onAddComment={handleAddComment} tickets={tickets}/>
+          </div>
+        </main>
+
+        {/* Tweaks panel */}
+        {showTweaks&&(
+          <div style={{position:'fixed',right:20,top:80,width:300,background:'var(--card)',borderRadius:20,boxShadow:'var(--shadow-lg)',padding:20,zIndex:1000,display:'flex',flexDirection:'column',gap:14}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <span style={{fontSize:14,fontWeight:800}}>Réglages</span>
+              <button onClick={()=>setShowTweaks(false)} style={{border:0,background:'none',fontSize:18,cursor:'pointer',color:'var(--muted)'}}>×</button>
+            </div>
+            {[
+              {label:'Thème',key:'theme',opts:['soft','apple','alan']},
+              {label:'Densité',key:'density',opts:['confort','compact']},
+              {label:'Disposition',key:'dashLayout',opts:['standard','funnel','compact']},
+            ].map((row)=>(
+              <div key={row.key} style={{display:'flex',flexDirection:'column',gap:6}}>
+                <span style={{fontSize:11.5,fontWeight:700,color:'var(--muted)',textTransform:'uppercase',letterSpacing:'.04em'}}>{row.label}</span>
+                <div className="seg">{row.opts.map((o)=><button key={o} className={tweaks[row.key]===o?'on':''} onClick={()=>setTweak(row.key,o)}>{o}</button>)}</div>
+              </div>
+            ))}
+            <div style={{display:'flex',flexDirection:'column',gap:6}}>
+              <span style={{fontSize:11.5,fontWeight:700,color:'var(--muted)',textTransform:'uppercase',letterSpacing:'.04em'}}>Couleur accent</span>
+              <div style={{display:'flex',gap:8}}>{ACCENTS.map((c)=>(
+                <button key={c} onClick={()=>setTweak('accent',c)} style={{width:28,height:28,borderRadius:'50%',background:c,border:tweaks.accent===c?'3px solid var(--ink)':'2px solid transparent',cursor:'pointer'}}/>
+              ))}</div>
+            </div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <span style={{fontSize:13,fontWeight:700}}>Insights auto</span>
+              <button onClick={()=>setTweak('showInsights',!tweaks.showInsights)} style={{width:44,height:24,borderRadius:12,border:0,cursor:'pointer',background:tweaks.showInsights?'var(--accent)':'var(--line)',transition:'background .2s',position:'relative'}}>
+                <span style={{position:'absolute',top:2,left:tweaks.showInsights?22:2,width:20,height:20,borderRadius:10,background:'#fff',transition:'left .2s',boxShadow:'0 1px 3px rgba(0,0,0,.2)'}}/>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Ticket Panel */}
+        <window.TicketPanel open={showTickets} onClose={()=>setShowTickets(false)} tickets={tickets} onAddTicket={handleAddTicket}/>
+
+        {/* Notif Panel */}
+        <window.NotifPanel open={showNotifs} onClose={()=>setShowNotifs(false)} notifs={notifs} onMarkRead={()=>setNotifs(prev=>prev.map(n=>({...n,unread:false})))}/>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+})();
+  </script>
+</body>
+</html>
